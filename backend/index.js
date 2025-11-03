@@ -16,27 +16,36 @@ dotenv.config();
 const app = express();
 const __dirname = path.resolve();
 
-// Middleware
-app.use(cookieParser());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// CORS config
+const allowedOrigins = [
+  'http://localhost:8080',
+  'http://localhost:8081',
+  'http://localhost:5173',
+  'http://127.0.0.1:5173',
+  'https://discover-adama-city.vercel.app', // your deployed frontend
+];
 
-// ✅ Fix CORS for frontend on Vercel + local dev
 app.use(
   cors({
-    origin: [
-      'http://localhost:8080',
-      'http://localhost:8081',
-      'http://localhost:5173',
-      'http://127.0.0.1:5173',
-      'https://discover-adama-city.vercel.app', // your frontend on vercel
-    ],
+    origin: allowedOrigins,
     credentials: true,
   })
 );
 
-//Serve uploaded files (images, videos, etc.)
-app.use('/api/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use(cookieParser());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// ✅ Add manual CORS headers for static files
+app.use('/api/uploads', (req, res, next) => {
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+}, express.static(path.join(__dirname, 'uploads')));
 
 // Connect to database
 connectDB();
@@ -47,6 +56,7 @@ app.use('/api/categories', categoryRoutes);
 app.use('/api/services', serviceRoutes);
 app.use('/api/ai', aiRoutes);
 
+// Default route
 app.get('/', (req, res) => {
   res.send('Discover Adama City API is running...');
 });
