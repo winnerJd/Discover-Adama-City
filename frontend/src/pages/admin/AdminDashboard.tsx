@@ -18,7 +18,7 @@ import CategoryEditableRow from "./CategoryEditableRow";
 const AdminDashboard: React.FC = () => {
   const { services, categories, addService, updateService, deleteService, getAllServices } = useServices();
   const [editingId, setEditingId] = useState<string | null>(null);
-  const API_URL = "http://localhost:5000";
+const API_URL = import.meta.env.VITE_API_BASE_URL;
   const [activeTab, setActiveTab] = useState<"services" | "categories">("services");
   const [catSubTab, setCatSubTab] = useState<"list" | "manage">("manage");
   const [svcSearch, setSvcSearch] = useState("");
@@ -67,7 +67,7 @@ const AdminDashboard: React.FC = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const { data } = await axios.get(`${API_URL}/api/categories`);
+        const { data } = await axios.get(`${API_URL}/categories`);
         setServerCategories(data);
       } catch (e) {
         // ignore
@@ -95,7 +95,7 @@ const counts = useMemo(() => {
   const signOut = async () => {
   axios.defaults.withCredentials = true;
   try {
-    const { data } = await axios.post(`${API_URL}/api/auth/logout`);
+    const { data } = await axios.post(`${API_URL}/auth/logout`);
     if (data.success) {
       toast({ title: "Logout", description: "Successfully logged out" });
       navigate("/admin/login");
@@ -214,7 +214,7 @@ const counts = useMemo(() => {
     try {
       setCatLoading(true);
       axios.defaults.withCredentials = true;
-      const { data } = await axios.post(`${API_URL}/api/categories`, { name: catName });
+      const { data } = await axios.post(`${API_URL}/categories`, { name: catName });
       setServerCategories((prev) => [...prev, data]);
       setCatName("");
       toast({ title: "Category created" });
@@ -229,7 +229,7 @@ const counts = useMemo(() => {
     try {
       setCatLoading(true);
       axios.defaults.withCredentials = true;
-      await axios.delete(`${API_URL}/api/categories/${id}`);
+      await axios.delete(`${API_URL}/categories/${id}`);
       setServerCategories((prev) => prev.filter((c) => c._id !== id));
       toast({ title: "Category deleted" });
     } catch (e: any) {

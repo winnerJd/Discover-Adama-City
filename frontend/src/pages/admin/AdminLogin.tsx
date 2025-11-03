@@ -10,7 +10,7 @@ import SiteFooter from "@/components/layout/SiteFooter";
 import { toast } from "@/hooks/use-toast";
 import axios from "axios";
 
-const API_URL = "http://localhost:5000";
+const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 
 const AdminLogin: React.FC = () => {
@@ -25,7 +25,7 @@ const AdminLogin: React.FC = () => {
     try {
       // Send login request to backend
       const { data } = await axios.post(
-        `${API_URL}/api/auth/login`,
+        `${API_URL}/auth/login`,
         { email, password },
         { withCredentials: true } 
       );

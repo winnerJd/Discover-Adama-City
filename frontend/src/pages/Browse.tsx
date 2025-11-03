@@ -27,6 +27,8 @@ const Browse: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   const chatEndRef = useRef<HTMLDivElement>(null);
+  const API_URL = import.meta.env.VITE_API_BASE_URL;
+
 
   const pageSize = 20;
 
@@ -63,7 +65,7 @@ const Browse: React.FC = () => {
       // user message
       setMessages((prev) => [...prev, { from: "user", text: aiPrompt }]);
 
-      const res = await fetch("http://localhost:5000/api/ai/discover", {
+      const res =await fetch(`${API_URL}/ai/discover`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ query: aiPrompt }),

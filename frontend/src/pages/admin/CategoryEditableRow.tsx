@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 
-const API_URL = "http://localhost:5000";
+const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 const CategoryEditableRow: React.FC<{
   category: { _id: string; name: string };
@@ -17,7 +17,7 @@ const CategoryEditableRow: React.FC<{
     try {
       setSaving(true);
       axios.defaults.withCredentials = true;
-      const { data } = await axios.put(`${API_URL}/api/categories/${category._id}`, { name });
+      const { data } = await axios.put(`${API_URL}/categories/${category._id}`, { name });
       // Backend returns { message, category }
       onUpdated(data.category ?? data);
     } finally {

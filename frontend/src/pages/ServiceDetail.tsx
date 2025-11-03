@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import MapGoogle from "@/components/MapGoogle";
 import type { Service } from "@/context/ServicesContext";
-const API_URL = "http://localhost:5000";
+const API_URL = import.meta.env.VITE_API_BASE_URL;
 const ServiceDetail: React.FC = () => {
   const { getServiceById } = useServices();
   const { id } = useParams();

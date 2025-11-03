@@ -39,7 +39,8 @@ type ServicesContextType = {
 };
 
 const ServicesContext = createContext<ServicesContextType | undefined>(undefined);
-const API_URL = "http://localhost:5000";
+const API_URL = import.meta.env.VITE_API_BASE_URL;
+
 
 export const ServicesProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [services, setServices] = useState<Service[]>([]);
@@ -49,7 +50,7 @@ export const ServicesProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   // 🔹 Get all categories
   const getAllCategories = async () => {
     try {
-      const { data } = await axios.get(`${API_URL}/api/categories`);
+      const { data } = await axios.get(`${API_URL}/categories`);
       setCategories(data);
     } catch (error) {
       console.error("Error fetching categories:", error);
@@ -59,7 +60,7 @@ export const ServicesProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   // 🔹 Get all services
   const getAllServices = async () => {
     try {
-      const { data } = await axios.get(`${API_URL}/api/services`);
+      const { data } = await axios.get(`${API_URL}/services`);
       setServices(data);
     } catch (error) {
       console.error("Error fetching services:", error);
@@ -69,7 +70,7 @@ export const ServicesProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   // 🔹 Get service by ID
   const getServiceById = async (id: string) => {
     try {
-      const { data } = await axios.get(`${API_URL}/api/services/${id}`);
+      const { data } = await axios.get(`${API_URL}/services/${id}`);
       return data;
     } catch (error) {
       console.error("Error fetching service:", error);
@@ -80,7 +81,7 @@ export const ServicesProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   // 🔹 Get services by category
   const getServicesByCategory = async (categoryId: string) => {
     try {
-      const { data } = await axios.get(`${API_URL}/api/services/category/${categoryId}`);
+      const { data } = await axios.get(`${API_URL}/services/category/${categoryId}`);
       return data;
     } catch (error) {
       console.error("Error fetching category services:", error);
@@ -113,7 +114,7 @@ const addService = async (input: ServiceInput, files?: FormData) => {
       });
     }
 
-    const { data } = await axios.post(`${API_URL}/api/services/`, formData, {
+    const { data } = await axios.post(`${API_URL}/services/`, formData, {
       headers: { "Content-Type": "multipart/form-data" },
       withCredentials: true,
     });
@@ -148,7 +149,7 @@ const updateService = async (id: string, input: Partial<ServiceInput>, files?: F
       });
     }
 
-    const { data } = await axios.put(`${API_URL}/api/services/${id}`, formData, {
+    const { data } = await axios.put(`${API_URL}/services/${id}`, formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
 
@@ -164,7 +165,7 @@ const updateService = async (id: string, input: Partial<ServiceInput>, files?: F
   const deleteService = async (id: string) => {
     try {
       axios.defaults.withCredentials=true
-      await axios.delete(`${API_URL}/api/services/${id}`);
+      await axios.delete(`${API_URL}/services/${id}`);
       setServices((prev) => prev.filter((s) => s._id !== id));
     } catch (error) {
       console.error("Error deleting service:", error);
@@ -174,7 +175,7 @@ const updateService = async (id: string, input: Partial<ServiceInput>, files?: F
   // 🔹 Add review
   const addReview = async (id: string, review: { comment: string; stars: number }) => {
     try {
-      await axios.post(`${API_URL}/api/services/${id}/review`, review);
+      await axios.post(`${API_URL}/services/${id}/review`, review);
       await getAllServices();
     } catch (error) {
       console.error("Error adding review:", error);
