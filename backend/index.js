@@ -38,8 +38,8 @@ app.use(
   })
 );
 
-// Handle preflight requests
-app.options('*', cors());
+// Handle preflight requests (use regex instead of '*' to avoid path-to-regexp error)
+app.options(/.*/, cors());
 
 app.use(cookieParser());
 app.use(express.json());
