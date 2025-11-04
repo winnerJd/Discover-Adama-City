@@ -27,23 +27,65 @@ const allowedOrigins = [
 
 app.use(
   cors({
-    origin: allowedOrigins,
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(null, true); // Allow all origins for now, can restrict later
+      }
+    },
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+    exposedHeaders: ['Set-Cookie'],
   })
 );
+
+// Handle preflight requests
+app.options('*', cors());
 
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ✅ Add manual CORS headers for static files
+// ✅ Add CORS headers for static files (images/videos)
+// Note: Static files don't need credentials, so we can use more permissive CORS
 app.use('/api/uploads', (req, res, next) => {
   const origin = req.headers.origin;
-  if (allowedOrigins.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
+  
+  // Handle preflight OPTIONS requests
+  if (req.method === 'OPTIONS') {
+    // Allow from any origin in allowed list, or allow all if list is empty
+    if (origin && allowedOrigins.includes(origin)) {
+      res.setHeader('Access-Control-Allow-Origin', origin);
+    } else if (allowedOrigins.length === 0) {
+      res.setHeader('Access-Control-Allow-Origin', '*');
+    }
+    res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Access-Control-Max-Age', '86400'); // 24 hours
+    return res.sendStatus(200);
   }
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  
+  // For GET requests, set CORS headers
+  if (origin) {
+    if (allowedOrigins.includes(origin)) {
+      // Use specific origin when in allowed list
+      res.setHeader('Access-Control-Allow-Origin', origin);
+    } else if (allowedOrigins.length === 0) {
+      // Allow all origins if no restrictions
+      res.setHeader('Access-Control-Allow-Origin', '*');
+    }
+  } else {
+    // No origin header - likely same-origin or direct access, allow it
+    res.setHeader('Access-Control-Allow-Origin', '*');
+  }
+  
+  // Expose headers that might be needed
+  res.setHeader('Access-Control-Expose-Headers', 'Content-Length, Content-Type, Content-Disposition');
+  
   next();
 }, express.static(path.join(__dirname, 'uploads')));
 

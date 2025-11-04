@@ -1,32 +1,49 @@
-import Service from '../models/service.js';
+import Service from "../models/service.js";
 
-
-// Create a new place
+// Create a new service
 export const createService = async (req, res) => {
   try {
-   
-    let { name, description, category, coordinates, location, phone ,website, rating, tags} = req.body;
+    let {
+      name,
+      description,
+      category,
+      coordinates,
+      location,
+      phone,
+      website,
+      rating,
+      tags,
+    } = req.body;
 
-    // Normalize coordinates from multipart/form-data
-    // Accept either coordinates as JSON string or coordinates[lat]/coordinates[lng]
-    if (!coordinates && (req.body['coordinates[lat]'] || req.body['coordinates[lng]'])) {
+    // Normalize coordinates
+    if (!coordinates && (req.body["coordinates[lat]"] || req.body["coordinates[lng]"])) {
       coordinates = {
-        lat: req.body['coordinates[lat]'],
-        lng: req.body['coordinates[lng]'],
+        lat: req.body["coordinates[lat]"],
+        lng: req.body["coordinates[lng]"],
       };
     }
-    if (typeof coordinates === 'string') {
-      try { coordinates = JSON.parse(coordinates); } catch (_) {}
+    if (typeof coordinates === "string") {
+      try {
+        coordinates = JSON.parse(coordinates);
+      } catch (_) {}
     }
 
-    // Validate required fields
-    if (!name || !description || !category || !location || !coordinates?.lat || !coordinates?.lng || !phone) {
-      return res.status(400).json({ message: 'Please provide all required fields' });
+    // Validation
+    if (
+      !name ||
+      !description ||
+      !category ||
+      !location ||
+      !coordinates?.lat ||
+      !coordinates?.lng ||
+      !phone
+    ) {
+      return res.status(400).json({ message: "Please provide all required fields" });
     }
 
-    // Handle images and videos
-    const images = req.files?.images?.map(file => file.filename) || [];
-    const videos = req.files?.videos?.map(file => file.filename) || [];
+    // Cloudinary uploads return URLs in `file.path`
+    const images = req.files?.images?.map((file) => file.path) || [];
+    const videos = req.files?.videos?.map((file) => file.path) || [];
 
     const newService = new Service({
       name,
@@ -35,34 +52,30 @@ export const createService = async (req, res) => {
       location,
       coordinates: {
         lat: Number(coordinates.lat),
-        lng: Number(coordinates.lng)
+        lng: Number(coordinates.lng),
       },
       website,
       phone,
-      images,
+      images, // Now contains Cloudinary URLs
       rating,
       videos,
       tags,
     });
-    
 
     const savedService = await newService.save();
     return res.status(201).json(savedService);
-
-
   } catch (error) {
-    console.error(error);
+    console.error("Error creating service:", error);
     return res.status(500).json({ message: error.message });
   }
 };
 
-
-// Get all places
+// Get all services
 export const getAllServices = async (req, res) => {
   try {
-    const services = await Service.find().populate('category', 'name');
+    const services = await Service.find().populate("category", "name");
     if (!services || services.length === 0) {
-      return res.status(404).json({ message: 'No places found for this category' });
+      return res.status(404).json({ message: "No services found" });
     }
     res.json(services);
   } catch (error) {
@@ -70,12 +83,12 @@ export const getAllServices = async (req, res) => {
   }
 };
 
-// Get place by ID
+// Get service by ID
 export const getServiceById = async (req, res) => {
   try {
-    const service = await Service.findById(req.params.id).populate('category', 'name');
+    const service = await Service.findById(req.params.id).populate("category", "name");
     if (!service) {
-      return res.status(404).json({ message: 'Place not found' });
+      return res.status(404).json({ message: "Service not found" });
     }
     res.json(service);
   } catch (error) {
@@ -83,15 +96,15 @@ export const getServiceById = async (req, res) => {
   }
 };
 
-// Get places by category
+// Get services by category
 export const getServiceByCategory = async (req, res) => {
   try {
     const service = await Service.find({
-      category: { $regex: new RegExp(`^${req.params.categoryId}$`, "i") }
+      category: { $regex: new RegExp(`^${req.params.categoryId}$`, "i") },
     });
-    
+
     if (!service || service.length === 0) {
-      return res.status(404).json({ message: "No places found for this category" });
+      return res.status(404).json({ message: "No services found for this category" });
     }
 
     res.json(service);
@@ -100,67 +113,73 @@ export const getServiceByCategory = async (req, res) => {
   }
 };
 
-
-// Update place
+// Update service
 export const updateService = async (req, res) => {
   try {
     const service = await Service.findById(req.params.id);
-
     if (!service) {
-      return res.status(404).json({ message: 'Place not found' });
+      return res.status(404).json({ message: "Service not found" });
     }
 
     let { coordinates } = req.body;
 
-    // Normalize coordinates
-    if (!coordinates && (req.body['coordinates[lat]'] || req.body['coordinates[lng]'])) {
+    if (!coordinates && (req.body["coordinates[lat]"] || req.body["coordinates[lng]"])) {
       coordinates = {
-        lat: req.body['coordinates[lat]'],
-        lng: req.body['coordinates[lng]'],
+        lat: req.body["coordinates[lat]"],
+        lng: req.body["coordinates[lng]"],
       };
     }
-    if (typeof coordinates === 'string') {
-      try { coordinates = JSON.parse(coordinates); } catch (_) {}
+    if (typeof coordinates === "string") {
+      try {
+        coordinates = JSON.parse(coordinates);
+      } catch (_) {}
     }
 
-    // Primitive fields
-    if (req.body.name) service.name = req.body.name;
-    if (req.body.description) service.description = req.body.description;
-    if (req.body.location) service.location = req.body.location;
-    if (coordinates && coordinates.lat != null && coordinates.lng != null) {
-      service.coordinates = { lat: Number(coordinates.lat), lng: Number(coordinates.lng) };
-    }
-    if (req.body.category) service.category = req.body.category;
+    // Update primitive fields
+    service.name = req.body.name || service.name;
+    service.description = req.body.description || service.description;
+    service.location = req.body.location || service.location;
+    service.category = req.body.category || service.category;
+    service.website = req.body.website || service.website;
+    service.phone = req.body.phone || service.phone;
 
-    // Files: append new uploads to existing arrays
-    const newImages = req.files?.images?.map(f => f.filename) || [];
-    const newVideos = req.files?.videos?.map(f => f.filename) || [];
+    if (coordinates?.lat && coordinates?.lng) {
+      service.coordinates = {
+        lat: Number(coordinates.lat),
+        lng: Number(coordinates.lng),
+      };
+    }
+
+    // Append Cloudinary file URLs
+    const newImages = req.files?.images?.map((f) => f.path) || [];
+    const newVideos = req.files?.videos?.map((f) => f.path) || [];
+
     if (newImages.length > 0) {
-      service.images = Array.isArray(service.images) ? [...service.images, ...newImages] : newImages;
+      service.images = [...(service.images || []), ...newImages];
     }
+
     if (newVideos.length > 0) {
-      service.videos = Array.isArray(service.videos) ? [...service.videos, ...newVideos] : newVideos;
+      service.videos = [...(service.videos || []), ...newVideos];
     }
 
     const updatedService = await service.save();
     res.json(updatedService);
   } catch (error) {
-    console.log(error.message)
+    console.error("Error updating service:", error);
     res.status(500).json({ message: error.message });
   }
 };
 
-// Delete place
+// Delete service
 export const deleteService = async (req, res) => {
   try {
     const service = await Service.findById(req.params.id);
-
     if (!service) {
-      return res.status(404).json({ message: 'Place not found' });
+      return res.status(404).json({ message: "Service not found" });
     }
 
     await Service.deleteOne({ _id: req.params.id });
-    res.json({ message: 'Place deleted successfully' });
+    res.json({ message: "Service deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -172,9 +191,8 @@ export const addReview = async (req, res) => {
 
   try {
     const service = await Service.findById(req.params.id);
-
     if (!service) {
-      return res.status(404).json({ message: 'Place not found' });
+      return res.status(404).json({ message: "Service not found" });
     }
 
     const review = {
@@ -190,7 +208,7 @@ export const addReview = async (req, res) => {
       service.reviews.length;
 
     await service.save();
-    res.status(201).json({ message: 'Review added successfully' });
+    res.status(201).json({ message: "Review added successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

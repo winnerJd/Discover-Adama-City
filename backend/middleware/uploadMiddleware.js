@@ -1,41 +1,35 @@
-import multer from 'multer';
-import path from 'path';
-// Set storage engine
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    if (file.mimetype.startsWith('image/')) {
-      cb(null, 'uploads/images');
-    } else if (file.mimetype.startsWith('video/')) {
-      cb(null, 'uploads/videos');
-    } else {
-      cb(new Error('Unsupported file type'), false);
-    }
-  },
-  filename: (req, file, cb) => {
-    cb(
-      null,
-      `${Date.now()}-${file.fieldname}${path.extname(file.originalname)}`
-    );
+import multer from "multer";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
+import cloudinary from "../config/cloudinary.js";
+
+// For images
+const imageStorage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "discover-adama-city/images",
+    allowed_formats: ["jpg", "jpeg", "png", "webp"],
+    resource_type: "image",
   },
 });
 
-// File filter to allow only images and videos
-const fileFilter = (req, file, cb) => {
-  if (
-    file.mimetype.startsWith('image/') ||
-    file.mimetype.startsWith('video/')
-  ) {
-    cb(null, true);
-  } else {
-    cb(new Error('Only image and video files are allowed!'), false);
-  }
-};
+// For videos
+const videoStorage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "discover-adama-city/videos",
+    allowed_formats: ["mp4", "mov", "avi", "mkv"],
+    resource_type: "video",
+  },
+});
 
-// Limits 
-const limits = {
-  fileSize: 100 * 1024 * 1024, // 100MB max
-};
-// Multer upload handler
-const upload = multer({ storage, fileFilter, limits });
+const upload = multer({
+  storage: (req, file, cb) => {
+    if (file.mimetype.startsWith("video/")) {
+      cb(null, videoStorage);
+    } else {
+      cb(null, imageStorage);
+    }
+  },
+});
 
 export default upload;
