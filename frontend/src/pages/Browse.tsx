@@ -131,7 +131,7 @@ const Browse: React.FC = () => {
       <main className="container mx-auto flex-1 py-8 space-y-8">
         {/* Search Filters */}
         <div className="bg-card rounded-2xl border shadow-elegant p-6">
-          <SearchFilters
+          <SearchFilters 
             filters={filters}
             onChange={(f) => {
               setFilters(f);

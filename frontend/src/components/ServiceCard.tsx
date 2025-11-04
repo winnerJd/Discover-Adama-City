@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import type { Service } from "@/context/ServicesContext";
+const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 const ServiceCard: React.FC<{ service: Service }> = ({ service }) => {
   console.log(service)
@@ -18,7 +19,7 @@ const ServiceCard: React.FC<{ service: Service }> = ({ service }) => {
   const categoryName = (service as any).category?.name ?? (service as any).category ?? "";
   const firstImage = Array.isArray((service as any).images) && (service as any).images.length > 0 ? (service as any).images[0] : undefined;
   const imgSrc = firstImage
-    ? `http://localhost:5000/uploads/images/${firstImage}`
+    ? `${API_URL}uploads/images/${firstImage}`
     : (service as any).imageUrl && typeof (service as any).imageUrl === 'string'
     ? (service as any).imageUrl
     : defaultImageByCategory[(categoryName as keyof typeof defaultImageByCategory) || "Hotel"] ?? "https://via.placeholder.com/400";
