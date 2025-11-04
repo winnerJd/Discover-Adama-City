@@ -151,6 +151,7 @@ const updateService = async (id: string, input: Partial<ServiceInput>, files?: F
 
     const { data } = await axios.put(`${API_URL}/services/${id}`, formData, {
       headers: { "Content-Type": "multipart/form-data" },
+      withCredentials: true,
     });
 
     setServices((prev) => prev.map((s) => (s._id === id ? data : s)));
@@ -175,7 +176,9 @@ const updateService = async (id: string, input: Partial<ServiceInput>, files?: F
   // 🔹 Add review
   const addReview = async (id: string, review: { comment: string; stars: number }) => {
     try {
-      await axios.post(`${API_URL}/services/${id}/review`, review);
+      await axios.post(`${API_URL}/services/${id}/review`, review, {
+        withCredentials: true,
+      });
       await getAllServices();
     } catch (error) {
       console.error("Error adding review:", error);

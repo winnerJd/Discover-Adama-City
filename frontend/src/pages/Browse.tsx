@@ -9,6 +9,7 @@ import { useServices } from "@/context/ServicesContext";
 import ServiceCard from "@/components/ServiceCard";
 import MapGoogle from "@/components/MapGoogle";
 import { Button } from "@/components/ui/button";
+import { MessageSquare, Send, Loader2, Sparkles } from "lucide-react";
 
 type Message = { from: "user" | "ai"; text: string };
 
@@ -28,7 +29,6 @@ const Browse: React.FC = () => {
 
   const chatEndRef = useRef<HTMLDivElement>(null);
   const API_URL = import.meta.env.VITE_API_BASE_URL;
-
 
   const pageSize = 20;
 
@@ -64,26 +64,27 @@ const Browse: React.FC = () => {
 
       // user message
       setMessages((prev) => [...prev, { from: "user", text: aiPrompt }]);
+      const userMessage = aiPrompt;
+      setAiPrompt("");
 
-      const res =await fetch(`${API_URL}/ai/discover`, {
+      const res = await fetch(`${API_URL}/ai/discover`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query: aiPrompt }),
+        body: JSON.stringify({ query: userMessage }),
       });
 
       const data = await res.json();
 
-      //  AI response
+      // AI response
       setMessages((prev) => [...prev, { from: "ai", text: data.response }]);
     } catch (error) {
       console.error(error);
       setMessages((prev) => [
         ...prev,
-        { from: "ai", text: "Error connecting to AI Studio" },
+        { from: "ai", text: "Sorry, I'm having trouble connecting right now. Please try again later." },
       ]);
     } finally {
       setLoading(false);
-      setAiPrompt("");
     }
   };
 
@@ -91,19 +92,37 @@ const Browse: React.FC = () => {
     const isAI = from === "ai";
     return (
       <div
-        className={`max-w-[75%] px-4 py-2 rounded-2xl mb-3 break-words ${
-          isAI
-            ? "bg-blue-100 text-gray-800 self-start"
-            : "bg-green-100 text-gray-900 self-end"
+        className={`flex gap-3 mb-4 animate-fade-in ${
+          isAI ? "justify-start" : "justify-end"
         }`}
       >
-        <ReactMarkdown>{text}</ReactMarkdown>
+        {isAI && (
+          <div className="w-8 h-8 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center flex-shrink-0 mt-1">
+            <Sparkles className="h-4 w-4 text-white" />
+          </div>
+        )}
+        <div
+          className={`max-w-[75%] px-4 py-3 rounded-2xl break-words shadow-sm ${
+            isAI
+              ? "bg-gradient-to-br from-primary/10 to-secondary/10 border border-primary/20 text-foreground"
+              : "bg-primary text-primary-foreground"
+          }`}
+        >
+          <ReactMarkdown className="prose prose-sm dark:prose-invert max-w-none">
+            {text}
+          </ReactMarkdown>
+        </div>
+        {!isAI && (
+          <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center flex-shrink-0 mt-1">
+            <span className="text-xs font-semibold">You</span>
+          </div>
+        )}
       </div>
     );
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-background via-background to-muted/30">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-background via-background to-muted/20">
       <Helmet>
         <title>Browse Services — Discover Adama</title>
         <meta
@@ -115,22 +134,33 @@ const Browse: React.FC = () => {
 
       <SiteHeader />
 
-      {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-primary">
-        <div className="absolute inset-0 opacity-20 bg-[url('data:image/svg+xml;base64,...')]"></div>
-        <div className="container mx-auto px-4 py-16 relative text-center text-white">
-          <h1 className="text-4xl md:text-5xl font-bold">Explore Adama Services</h1>
-          <p className="text-xl mt-2 text-white/90 max-w-2xl mx-auto">
-            Discover hotels, hospitals, restaurants, transport and government
-            services across the city
-          </p>
-          <p className="mt-2 text-white/80">{filtered.length} services available</p>
+      {/* Enhanced Hero Section */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-primary/10 via-background to-secondary/10 border-b">
+        <div className="absolute inset-0 opacity-30">
+          <div className="absolute top-0 left-0 w-72 h-72 bg-primary/20 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 right-0 w-72 h-72 bg-secondary/20 rounded-full blur-3xl"></div>
+        </div>
+        <div className="container mx-auto px-4 py-12 md:py-16 relative">
+          <div className="text-center space-y-4">
+            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">
+              Explore Adama Services
+            </h1>
+            <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+              Discover hotels, hospitals, restaurants, transport and government services across the vibrant city of Adama
+            </p>
+            <div className="flex items-center justify-center gap-2 pt-4">
+              <div className="px-4 py-2 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-sm">
+                <span className="text-lg font-bold text-primary">{filtered.length}</span>
+                <span className="text-sm text-muted-foreground ml-2">services available</span>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      <main className="container mx-auto flex-1 py-8 space-y-8">
-        {/* Search Filters */}
-        <div className="bg-card rounded-2xl border shadow-elegant p-6">
+      <main className="container mx-auto flex-1 py-8 px-4 space-y-8">
+        {/* Enhanced Search Filters */}
+        <div className="bg-card/50 backdrop-blur-sm rounded-2xl border shadow-elegant p-6 md:p-8 hover:shadow-xl transition-shadow duration-300">
           <SearchFilters 
             filters={filters}
             onChange={(f) => {
@@ -148,12 +178,12 @@ const Browse: React.FC = () => {
         <div className="grid gap-8 lg:grid-cols-[1.1fr_minmax(420px,0.9fr)]">
           <div className="space-y-6">
             <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-semibold tracking-tight">
+              <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
                 {filters.q || filters.category !== "all" || filters.minRating > 0
                   ? `Search Results (${filtered.length})`
                   : "All Services"}
               </h2>
-              <div className="text-sm text-muted-foreground">
+              <div className="text-sm text-muted-foreground hidden sm:block">
                 Page {currentPage} of {totalPages} • {filtered.length} results
               </div>
             </div>
@@ -162,7 +192,7 @@ const Browse: React.FC = () => {
               {paginated.map((s, idx) => (
                 <div
                   key={s._id}
-                  className="animate-fade-in hover:scale-[1.01] transition-transform"
+                  className="animate-fade-in"
                   style={{ animationDelay: `${idx * 50}ms` }}
                 >
                   <ServiceCard service={s} />
@@ -170,34 +200,58 @@ const Browse: React.FC = () => {
               ))}
             </div>
 
-            {/* Pagination */}
+            {/* Enhanced Pagination */}
             {totalPages > 1 && (
-              <div className="flex items-center justify-center gap-2 pt-4">
-                <Button onClick={() => setPage(1)} disabled={currentPage === 1}>
+              <div className="flex flex-wrap items-center justify-center gap-2 pt-6">
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => setPage(1)} 
+                  disabled={currentPage === 1}
+                >
                   First
                 </Button>
                 <Button
+                  variant="outline"
+                  size="sm"
                   onClick={() => setPage(currentPage - 1)}
                   disabled={currentPage === 1}
                 >
                   Prev
                 </Button>
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
-                  <Button
-                    key={p}
-                    variant={p === currentPage ? "default" : "ghost"}
-                    onClick={() => setPage(p)}
-                  >
-                    {p}
-                  </Button>
-                ))}
+                {Array.from({ length: Math.min(totalPages, 7) }, (_, i) => {
+                  let pageNum;
+                  if (totalPages <= 7) {
+                    pageNum = i + 1;
+                  } else if (currentPage <= 4) {
+                    pageNum = i + 1;
+                  } else if (currentPage >= totalPages - 3) {
+                    pageNum = totalPages - 6 + i;
+                  } else {
+                    pageNum = currentPage - 3 + i;
+                  }
+                  return (
+                    <Button
+                      key={pageNum}
+                      variant={pageNum === currentPage ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => setPage(pageNum)}
+                    >
+                      {pageNum}
+                    </Button>
+                  );
+                })}
                 <Button
+                  variant="outline"
+                  size="sm"
                   onClick={() => setPage(currentPage + 1)}
                   disabled={currentPage === totalPages}
                 >
                   Next
                 </Button>
                 <Button
+                  variant="outline"
+                  size="sm"
                   onClick={() => setPage(totalPages)}
                   disabled={currentPage === totalPages}
                 >
@@ -207,24 +261,32 @@ const Browse: React.FC = () => {
             )}
 
             {filtered.length === 0 && (
-              <div className="text-center py-16 space-y-4">
-                <div className="w-24 h-24 mx-auto bg-muted rounded-full flex items-center justify-center">
+              <div className="text-center py-20 space-y-6">
+                <div className="w-32 h-32 mx-auto bg-gradient-to-br from-muted to-muted/50 rounded-full flex items-center justify-center text-6xl">
                   🔍
                 </div>
-                <h3 className="text-xl font-semibold">No services found</h3>
-                <p className="text-muted-foreground max-w-md mx-auto">
-                  We couldn't find any services matching your criteria.
-                </p>
+                <div className="space-y-2">
+                  <h3 className="text-2xl font-bold">No services found</h3>
+                  <p className="text-muted-foreground max-w-md mx-auto">
+                    We couldn't find any services matching your criteria. Try adjusting your filters.
+                  </p>
+                </div>
+                <Button variant="outline" onClick={() => {
+                  setFilters({ q: "", category: "all", minRating: 0 });
+                  setPage(1);
+                }}>
+                  Clear All Filters
+                </Button>
               </div>
             )}
           </div>
 
-          {/* Map */}
+          {/* Enhanced Map */}
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold">Map View</h3>
-              <div className="text-xs text-muted-foreground">
-                Showing up to 50 locations
+              <h3 className="text-xl font-bold">Map View</h3>
+              <div className="text-xs text-muted-foreground bg-muted px-3 py-1 rounded-full">
+                Showing {Math.min(filtered.length, 50)} locations
               </div>
             </div>
             <div className="sticky top-24 bg-card rounded-2xl border shadow-elegant overflow-hidden">
@@ -234,31 +296,82 @@ const Browse: React.FC = () => {
         </div>
       </main>
 
-      {/* 🔹 AI Studio Chat  */}
-      
-      <div className="bg-card rounded-t-2xl border-t shadow-elegant p-6 mt-8">
-        <h3 className="text-lg font-semibold">Ask Discover Adama AI</h3>
+      {/* Enhanced AI Studio Chat */}
+      <div className="container mx-auto px-4 pb-8">
+        <div className="bg-card/50 backdrop-blur-sm rounded-2xl border shadow-elegant p-6 md:p-8">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
+              <MessageSquare className="h-5 w-5 text-white" />
+            </div>
+            <div>
+              <h3 className="text-xl font-bold">Ask Discover Adama AI</h3>
+              <p className="text-sm text-muted-foreground">Get instant answers about services in Adama</p>
+            </div>
+          </div>
 
-        <div className="h-80 overflow-y-auto border rounded-lg p-4 flex flex-col bg-muted">
-          {messages.map((m, i) => (
-            <ChatBubble key={i} from={m.from} text={m.text} />
-          ))}
-          {loading && <ChatBubble from="ai" text="💭 Thinking..." />}
-          <div ref={chatEndRef} />
-        </div>
+          <div className="h-80 overflow-y-auto border rounded-xl p-4 flex flex-col bg-muted/30 mb-4 scrollbar-thin">
+            {messages.length === 0 && (
+              <div className="flex-1 flex items-center justify-center text-center text-muted-foreground">
+                <div className="space-y-2">
+                  <Sparkles className="h-8 w-8 mx-auto opacity-50" />
+                  <p>Start a conversation to get recommendations</p>
+                </div>
+              </div>
+            )}
+            {messages.map((m, i) => (
+              <ChatBubble key={i} from={m.from} text={m.text} />
+            ))}
+            {loading && (
+              <div className="flex gap-3 mb-4">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center flex-shrink-0 mt-1">
+                  <Sparkles className="h-4 w-4 text-white" />
+                </div>
+                <div className="px-4 py-3 rounded-2xl bg-gradient-to-br from-primary/10 to-secondary/10 border border-primary/20">
+                  <Loader2 className="h-4 w-4 animate-spin text-primary" />
+                </div>
+              </div>
+            )}
+            <div ref={chatEndRef} />
+          </div>
 
-        <div className="flex gap-2 mt-2">
-          <input
-            type="text"
-            value={aiPrompt}
-            onChange={(e) => setAiPrompt(e.target.value)}
-            placeholder="Ask about hotels, attractions, restaurants..."
-            className="flex-1 border rounded-lg px-3 py-2 text-sm"
-            onKeyDown={(e) => e.key === "Enter" && askAIStudio()}
-          />
-          <Button onClick={askAIStudio} disabled={loading}>
-            {loading ? "Thinking..." : "Send"}
-          </Button>
+          <div className="flex gap-3">
+            <div className="flex-1 relative">
+              <input
+                type="text"
+                value={aiPrompt}
+                onChange={(e) => setAiPrompt(e.target.value)}
+                placeholder="Ask about hotels, restaurants, hospitals, attractions..."
+                className="w-full border rounded-xl px-4 py-3 pr-12 focus:outline-none focus:ring-2 focus:ring-primary/50 bg-background"
+                onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && askAIStudio()}
+                disabled={loading}
+              />
+              {aiPrompt && (
+                <button
+                  onClick={() => setAiPrompt("")}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                >
+                  ✕
+                </button>
+              )}
+            </div>
+            <Button 
+              onClick={askAIStudio} 
+              disabled={loading || !aiPrompt.trim()}
+              className="px-6"
+            >
+              {loading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Thinking...
+                </>
+              ) : (
+                <>
+                  <Send className="mr-2 h-4 w-4" />
+                  Send
+                </>
+              )}
+            </Button>
+          </div>
         </div>
       </div>
 
