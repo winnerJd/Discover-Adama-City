@@ -174,9 +174,8 @@ const Browse: React.FC = () => {
           />
         </div>
 
-        {/* Services Grid */}
-        <div className="grid gap-8 lg:grid-cols-[1.1fr_minmax(420px,0.9fr)]">
-          <div className="space-y-6">
+        {/* Services List - single column for readability */}
+        <div className="space-y-6">
             <div className="flex items-center justify-between">
               <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
                 {filters.q || filters.category !== "all" || filters.minRating > 0
@@ -279,20 +278,6 @@ const Browse: React.FC = () => {
                 </Button>
               </div>
             )}
-          </div>
-
-          {/* Enhanced Map */}
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <h3 className="text-xl font-bold">Map View</h3>
-              <div className="text-xs text-muted-foreground bg-muted px-3 py-1 rounded-full">
-                Showing {Math.min(filtered.length, 50)} locations
-              </div>
-            </div>
-            <div className="sticky top-24 bg-card rounded-2xl border shadow-elegant overflow-hidden">
-              <MapGoogle services={filtered.slice(0, 50) as any} height="520px" />
-            </div>
-          </div>
         </div>
       </main>
 
