@@ -29,8 +29,8 @@ export type ServiceInput = Omit<Service, "_id" | "category"> & { category: strin
 type ServicesContextType = {
   services: Service[];
   categories: ServiceCategory[];
-  addService: (input: ServiceInput, files?: FormData) => Promise<void>;
-  updateService: (id: string, input: Partial<ServiceInput>, files?: FormData) => Promise<void>;
+  addService: (input: ServiceInput, files?: FormData) => Promise<boolean>;
+  updateService: (id: string, input: Partial<ServiceInput>, files?: FormData) => Promise<boolean>;
   deleteService: (id: string) => Promise<void>;
   getServiceById: (id: string) => Promise<Service | undefined>;
   getAllServices: () => Promise<void>;
@@ -89,8 +89,8 @@ export const ServicesProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     }
   };
 
-  // Add new service
-const addService = async (input: ServiceInput, files?: FormData) => {
+// Add new service
+const addService = async (input: ServiceInput, files?: FormData): Promise<boolean> => {
   try {
     const formData = files ?? new FormData();
 
@@ -119,15 +119,18 @@ const addService = async (input: ServiceInput, files?: FormData) => {
       withCredentials: true,
     });
 
-    setServices((prev) => [...prev, data]);
+    // Prefer server truth over optimistic
+    await getAllServices();
+    return true;
   } catch (error) {
     console.error("Error creating service:", error);
+    return false;
   }
 };
 
 
 // Update existing service
-const updateService = async (id: string, input: Partial<ServiceInput>, files?: FormData) => {
+const updateService = async (id: string, input: Partial<ServiceInput>, files?: FormData): Promise<boolean> => {
   try {
     const formData = files ?? new FormData();
 
@@ -154,9 +157,11 @@ const updateService = async (id: string, input: Partial<ServiceInput>, files?: F
       withCredentials: true,
     });
 
-    setServices((prev) => prev.map((s) => (s._id === id ? data : s)));
+    await getAllServices();
+    return true;
   } catch (error) {
     console.error("Error updating service:", error);
+    return false;
   }
 };
 

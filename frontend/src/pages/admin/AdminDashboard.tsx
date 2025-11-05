@@ -50,6 +50,7 @@ const API_URL = import.meta.env.VITE_API_BASE_URL;
 });
 
   const [mapsKey, setMapsKey] = useState("");
+  const [svcSaving, setSvcSaving] = useState(false);
   const navigate = useNavigate();
 
   // Check admin login
@@ -111,6 +112,7 @@ const counts = useMemo(() => {
   const submit = async (e: React.FormEvent) => {
   e.preventDefault();
   try {
+    setSvcSaving(true);
     const formData = new FormData();
 
     // Add all fields to FormData
@@ -133,11 +135,21 @@ const counts = useMemo(() => {
     formData.append("coordinates[lng]", String(form.coordinates.lng));
 
     if (editingId) {
-      await updateService(editingId, form, formData);
-      toast({ title: "Updated", description: "Service updated successfully" });
+      const ok = await updateService(editingId, form, formData);
+      if (ok) {
+        toast({ title: "Updated", description: "Service updated successfully" });
+      } else {
+        toast({ title: "Update failed", description: "Please check your inputs and try again", variant: "destructive" });
+        return;
+      }
     } else {
-      await addService(form, formData);
-      toast({ title: "Added", description: "Service added successfully" });
+      const ok = await addService(form, formData);
+      if (ok) {
+        toast({ title: "Added", description: "Service added successfully" });
+      } else {
+        toast({ title: "Add failed", description: "Please check your inputs and try again", variant: "destructive" });
+        return;
+      }
     }
 
     // After create or update, navigate back to Services list subpage
@@ -166,6 +178,8 @@ const counts = useMemo(() => {
 
   } catch (error) {
     toast({ title: "Error", description: "Failed to save service" });
+  } finally {
+    setSvcSaving(false);
   }
 };
 
@@ -534,7 +548,9 @@ const counts = useMemo(() => {
                         </div>
 
                         <div className="flex gap-2 pt-2">
-                          <Button type="submit">{editingId ? "Save Changes" : "Add Service"}</Button>
+                          <Button type="submit" disabled={svcSaving}>
+                            {svcSaving ? (editingId ? "Saving..." : "Adding...") : (editingId ? "Save Changes" : "Add Service")}
+                          </Button>
                           {editingId && (
                             <Button variant="secondary" type="button" onClick={() => setEditingId(null)}>Cancel</Button>
                           )}
