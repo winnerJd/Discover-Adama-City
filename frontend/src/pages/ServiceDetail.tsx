@@ -109,8 +109,12 @@ const ServiceDetail: React.FC = () => {
   }
 
   // compute safe media once svc is available
-  const toImageUrl = (p?: string) => optimizeImageUrl(p);
-  const toVideoUrl = (p?: string) => (p && /^https?:\/\//i.test(p)) ? p : (p ? `${API_URL}/uploads/videos/${p}` : undefined);
+  const toImageUrl = (p?: string) => {
+    if (!p) return undefined;
+    // Only use HTTP(S) assets to avoid broken local file references
+    return /^https?:\/\//i.test(p) ? optimizeImageUrl(p) : undefined;
+  };
+  const toVideoUrl = (p?: string) => (/^https?:\/\//i.test(p || "")) ? p : undefined;
   const imagesArr: string[] = svc && Array.isArray((svc as any).images) ? (svc as any).images : [];
   const firstImage = imagesArr[0];
   const bgImage = toImageUrl(firstImage) ?? (typeof (svc as any)?.imageUrl === 'string' ? (svc as any).imageUrl : "/placeholder.svg");

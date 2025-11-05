@@ -48,7 +48,8 @@ const ServiceCard: React.FC<{ service: Service }> = ({ service }) => {
       }
       return url;
     }
-    return `${API_URL}/uploads/images/${url}`;
+    // Legacy filenames (non-HTTP) point to ephemeral local storage on Render; skip to avoid broken requests
+    return null;
   };
 
   const imgSrc = getOptimizedImageUrl(firstImage) || 
