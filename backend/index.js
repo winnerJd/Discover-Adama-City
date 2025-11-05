@@ -29,7 +29,18 @@ app.use(
   cors({
     origin: function (origin, callback) {
       if (!origin) return callback(null, true);
-      callback(null, allowedOrigins.includes(origin));
+      let isAllowed = false;
+      try {
+        const hostname = new URL(origin).hostname;
+        isAllowed =
+          allowedOrigins.includes(origin) ||
+          hostname.endsWith('.vercel.app') ||
+          hostname === 'localhost' ||
+          hostname === '127.0.0.1';
+      } catch (_) {
+        isAllowed = allowedOrigins.includes(origin);
+      }
+      callback(null, isAllowed);
     },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
@@ -45,8 +56,22 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static files from /uploads
-app.use('/api/uploads', express.static(path.join(__dirname, 'uploads')));
+// Serve static files from /uploads with permissive CORS for images/videos
+app.use('/api/uploads', (req, res, next) => {
+  const origin = req.headers.origin;
+  if (origin) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Vary', 'Origin');
+  } else {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+  }
+  if (req.method === 'OPTIONS') {
+    res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    return res.sendStatus(200);
+  }
+  next();
+}, express.static(path.join(__dirname, 'uploads')));
 
 // Connect to database
 connectDB();
