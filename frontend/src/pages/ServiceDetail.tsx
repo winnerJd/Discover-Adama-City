@@ -272,6 +272,7 @@ const ServiceDetail: React.FC = () => {
                       src={toImageUrl(imagesArr[selectedImageIndex])}
                       alt={`${svc.name} - Image ${selectedImageIndex + 1}`}
                       className="w-full h-full object-cover"
+                      onError={(e) => { (e.currentTarget as HTMLImageElement).src = "/placeholder.svg"; }}
                     />
                   </div>
                   
@@ -292,6 +293,7 @@ const ServiceDetail: React.FC = () => {
                             src={toImageUrl(img)}
                             alt={`Thumbnail ${idx + 1}`}
                             className="w-full h-full object-cover"
+                            onError={(e) => { (e.currentTarget as HTMLImageElement).src = "/placeholder.svg"; }}
                           />
                         </button>
                       ))}

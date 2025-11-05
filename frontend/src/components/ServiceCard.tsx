@@ -67,7 +67,7 @@ const ServiceCard: React.FC<{ service: Service }> = ({ service }) => {
           <div className="absolute inset-0 animate-pulse bg-gradient-to-r from-muted via-muted/50 to-muted" />
         )}
         <img
-          src={imgSrc}
+          src={imageError ? (defaultImageByCategory[(categoryName as keyof typeof defaultImageByCategory) || "Hotel"] ?? "https://via.placeholder.com/400") : imgSrc}
           alt={`${service.name} — ${categoryName} in Adama`}
           loading="lazy"
           onLoad={() => setImageLoaded(true)}
