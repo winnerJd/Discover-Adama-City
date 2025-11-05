@@ -166,7 +166,7 @@ const updateService = async (id: string, input: Partial<ServiceInput>, files?: F
   const deleteService = async (id: string) => {
     try {
       axios.defaults.withCredentials=true
-      await axios.delete(`${API_URL}/services/${id}`);
+      await axios.delete(`${API_URL}/services/${id}`, { withCredentials: true });
       setServices((prev) => prev.filter((s) => s._id !== id));
     } catch (error) {
       console.error("Error deleting service:", error);
