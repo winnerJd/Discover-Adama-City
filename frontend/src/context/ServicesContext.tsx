@@ -29,8 +29,8 @@ export type ServiceInput = Omit<Service, "_id" | "category"> & { category: strin
 type ServicesContextType = {
   services: Service[];
   categories: ServiceCategory[];
-  addService: (input: ServiceInput, files?: FormData) => Promise<boolean>;
-  updateService: (id: string, input: Partial<ServiceInput>, files?: FormData) => Promise<boolean>;
+  addService: (input: ServiceInput, files?: FormData) => Promise<{ ok: boolean; error?: string }>;
+  updateService: (id: string, input: Partial<ServiceInput>, files?: FormData) => Promise<{ ok: boolean; error?: string }>;
   deleteService: (id: string) => Promise<void>;
   getServiceById: (id: string) => Promise<Service | undefined>;
   getAllServices: () => Promise<void>;
@@ -90,7 +90,7 @@ export const ServicesProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   };
 
 // Add new service
-const addService = async (input: ServiceInput, files?: FormData): Promise<boolean> => {
+const addService = async (input: ServiceInput, files?: FormData): Promise<{ ok: boolean; error?: string }> => {
   try {
     const formData = files ?? new FormData();
 
@@ -121,16 +121,17 @@ const addService = async (input: ServiceInput, files?: FormData): Promise<boolea
 
     // Prefer server truth over optimistic
     await getAllServices();
-    return true;
-  } catch (error) {
-    console.error("Error creating service:", error);
-    return false;
+    return { ok: true };
+  } catch (error: any) {
+    const msg = error?.response?.data?.message || error?.message || "Unknown error";
+    console.error("Error creating service:", msg);
+    return { ok: false, error: msg };
   }
 };
 
 
 // Update existing service
-const updateService = async (id: string, input: Partial<ServiceInput>, files?: FormData): Promise<boolean> => {
+const updateService = async (id: string, input: Partial<ServiceInput>, files?: FormData): Promise<{ ok: boolean; error?: string }> => {
   try {
     const formData = files ?? new FormData();
 
@@ -158,10 +159,11 @@ const updateService = async (id: string, input: Partial<ServiceInput>, files?: F
     });
 
     await getAllServices();
-    return true;
-  } catch (error) {
-    console.error("Error updating service:", error);
-    return false;
+    return { ok: true };
+  } catch (error: any) {
+    const msg = error?.response?.data?.message || error?.message || "Unknown error";
+    console.error("Error updating service:", msg);
+    return { ok: false, error: msg };
   }
 };
 

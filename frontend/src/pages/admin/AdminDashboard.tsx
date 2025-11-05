@@ -135,19 +135,19 @@ const counts = useMemo(() => {
     formData.append("coordinates[lng]", String(form.coordinates.lng));
 
     if (editingId) {
-      const ok = await updateService(editingId, form, formData);
+      const { ok, error } = await updateService(editingId, form, formData);
       if (ok) {
         toast({ title: "Updated", description: "Service updated successfully" });
       } else {
-        toast({ title: "Update failed", description: "Please check your inputs and try again", variant: "destructive" });
+        toast({ title: "Update failed", description: error || "Please check your inputs and try again", variant: "destructive" });
         return;
       }
     } else {
-      const ok = await addService(form, formData);
+      const { ok, error } = await addService(form, formData);
       if (ok) {
         toast({ title: "Added", description: "Service added successfully" });
       } else {
-        toast({ title: "Add failed", description: "Please check your inputs and try again", variant: "destructive" });
+        toast({ title: "Add failed", description: error || "Please check your inputs and try again", variant: "destructive" });
         return;
       }
     }
