@@ -14,6 +14,8 @@ import connectDB from './config/db.js';
 dotenv.config();
 
 const app = express();
+// Trust Render/Proxy so secure cookies and protocol are detected correctly
+app.set('trust proxy', 1);
 const __dirname = path.resolve();
 
 // CORS config
