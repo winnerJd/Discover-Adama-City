@@ -2,11 +2,6 @@ import multer from "multer";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
 import cloudinary from "../config/cloudinary.js";
 
-// Verify Cloudinary config
-if (!process.env.CLOUDINARY_CLOUD_NAME || !process.env.CLOUDINARY_API_KEY || !process.env.CLOUDINARY_API_SECRET) {
-  console.error("⚠️  Cloudinary credentials missing! File uploads will fail.");
-}
-
 // For images
 const imageStorage = new CloudinaryStorage({
   cloudinary,

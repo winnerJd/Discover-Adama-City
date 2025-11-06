@@ -106,5 +106,13 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`✅ Server running on port ${PORT}`);
-  console.log(`📁 Cloudinary configured: ${!!process.env.CLOUDINARY_CLOUD_NAME}`);
+  const hasCloudinary = !!(process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET);
+  console.log(`📁 Cloudinary configured: ${hasCloudinary}`);
+  if (!hasCloudinary) {
+    console.log("⚠️  WARNING: Cloudinary credentials not found!");
+    console.log("   Set these environment variables in Render dashboard:");
+    console.log("   - CLOUDINARY_CLOUD_NAME");
+    console.log("   - CLOUDINARY_API_KEY");
+    console.log("   - CLOUDINARY_API_SECRET");
+  }
 });
