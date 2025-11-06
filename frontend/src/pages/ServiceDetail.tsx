@@ -306,17 +306,6 @@ const ServiceDetail: React.FC = () => {
                 </CardContent>
               </Card>
             ) : (
-              <Card className="bg-card/50 backdrop-blur-sm">
-                <CardHeader>
-                  <CardTitle className="text-2xl font-bold text-foreground">Gallery</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-center py-12 text-muted-foreground">
-                    <p className="text-lg">No images available for this service</p>
-                  </div>
-                </CardContent>
-              </Card>
-            ) : (
               <Card className="bg-white backdrop-blur-sm border-slate-200">
                 <CardHeader>
                   <CardTitle className="text-subtitle text-2xl font-bold text-slate-800">Gallery</CardTitle>
