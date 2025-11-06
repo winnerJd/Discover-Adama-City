@@ -41,9 +41,12 @@ export const createService = async (req, res) => {
       return res.status(400).json({ message: "Please provide all required fields" });
     }
 
-    // Cloudinary uploads return URLs in `file.path`
-    const images = req.files?.images?.map((file) => file.path) || [];
-    const videos = req.files?.videos?.map((file) => file.path) || [];
+    // Cloudinary uploads return URLs in `file.path` or `file.secure_url`
+    const images = req.files?.images?.map((file) => file.path || file.secure_url).filter(Boolean) || [];
+    const videos = req.files?.videos?.map((file) => file.path || file.secure_url).filter(Boolean) || [];
+    
+    console.log("Uploaded images:", images);
+    console.log("Uploaded videos:", videos);
 
     const newService = new Service({
       name,
@@ -150,9 +153,12 @@ export const updateService = async (req, res) => {
       };
     }
 
-    // Append Cloudinary file URLs
-    const newImages = req.files?.images?.map((f) => f.path) || [];
-    const newVideos = req.files?.videos?.map((f) => f.path) || [];
+    // Append Cloudinary file URLs (check both path and secure_url)
+    const newImages = req.files?.images?.map((f) => f.path || f.secure_url).filter(Boolean) || [];
+    const newVideos = req.files?.videos?.map((f) => f.path || f.secure_url).filter(Boolean) || [];
+    
+    console.log("New images to add:", newImages);
+    console.log("New videos to add:", newVideos);
 
     if (newImages.length > 0) {
       service.images = [...(service.images || []), ...newImages];

@@ -8,7 +8,7 @@ import {
   updateService,
   deleteService
 } from '../controllers/servicesController.js';
-import upload from '../middleware/uploadMiddleware.js';
+import upload, { handleUploadError } from '../middleware/uploadMiddleware.js';
 import { protect, admin } from '../middleware/authmiddleware.js';
 
 const router = express.Router();
@@ -21,6 +21,7 @@ router.post(
     { name: 'images', maxCount: 5 },
     { name: 'videos', maxCount: 3 },
   ]),
+  handleUploadError,
   createService
 );
 
@@ -42,6 +43,7 @@ router.put(
     { name: 'images', maxCount: 5 },
     { name: 'videos', maxCount: 3 },
   ]),
+  handleUploadError,
   updateService
 );
 

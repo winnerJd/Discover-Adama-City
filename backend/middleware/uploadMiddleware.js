@@ -2,6 +2,11 @@ import multer from "multer";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
 import cloudinary from "../config/cloudinary.js";
 
+// Verify Cloudinary config
+if (!process.env.CLOUDINARY_CLOUD_NAME || !process.env.CLOUDINARY_API_KEY || !process.env.CLOUDINARY_API_SECRET) {
+  console.error("⚠️  Cloudinary credentials missing! File uploads will fail.");
+}
+
 // For images
 const imageStorage = new CloudinaryStorage({
   cloudinary,
@@ -30,6 +35,35 @@ const upload = multer({
       cb(null, imageStorage);
     }
   },
+  limits: {
+    fileSize: 50 * 1024 * 1024, // 50MB max file size
+  },
+  fileFilter: (req, file, cb) => {
+    // Accept images and videos
+    if (file.mimetype.startsWith("image/") || file.mimetype.startsWith("video/")) {
+      cb(null, true);
+    } else {
+      cb(new Error("Only image and video files are allowed"), false);
+    }
+  },
 });
+
+// Error handling middleware for multer
+export const handleUploadError = (err, req, res, next) => {
+  if (err instanceof multer.MulterError) {
+    if (err.code === "LIMIT_FILE_SIZE") {
+      return res.status(400).json({ message: "File too large. Maximum size is 50MB." });
+    }
+    if (err.code === "LIMIT_FILE_COUNT") {
+      return res.status(400).json({ message: "Too many files. Maximum 5 images and 3 videos." });
+    }
+    return res.status(400).json({ message: `Upload error: ${err.message}` });
+  }
+  if (err) {
+    console.error("Upload error:", err);
+    return res.status(400).json({ message: err.message || "File upload failed" });
+  }
+  next();
+};
 
 export default upload;
