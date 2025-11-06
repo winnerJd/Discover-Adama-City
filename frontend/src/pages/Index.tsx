@@ -17,10 +17,10 @@ const Index = () => {
   // loading state to prevent errors while data is being fetched
   if (!services || !categories) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-xl text-muted-foreground">Loading Discover Adama...</p>
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-sky-500 mx-auto mb-4"></div>
+          <p className="text-xl text-slate-600">Loading Discover Adama...</p>
         </div>
       </div>
     );
@@ -46,14 +46,14 @@ const Index = () => {
           
           <div className="container mx-auto px-4 py-20 text-center relative z-10">
             <div className="flex items-center justify-center gap-3 mb-8 animate-fade-in">
-              <div className="p-4 rounded-full bg-skyline-glow shadow-elegant">
-                <MapPin className="h-8 w-8 text-white" />
+              <div className="p-4 rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 shadow-elegant">
+                <MapPin className="h-8 w-8 text-slate-50" />
               </div>
               <span className="text-sky-600 text-xl font-bold tracking-wide">Adama Smart City</span>
               <Sparkles className="h-6 w-6 text-amber-500 animate-pulse" />
             </div>
             
-            <h1 className="text-title md:text-6xl md:text-8xl tracking-tight mb-8 bg-skyline-glow bg-clip-text text-transparent animate-fade-in" style={{ animationDelay: '0.2s' }}>
+            <h1 className="text-title md:text-6xl md:text-8xl tracking-tight mb-8 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent animate-fade-in" style={{ animationDelay: '0.2s' }}>
               Discover Adama
             </h1>
             
@@ -62,7 +62,7 @@ const Index = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-20 max-w-3xl mx-auto animate-fade-in" style={{ animationDelay: '0.6s' }}>
-              <Button asChild size="lg" className="px-10 py-7 text-lg bg-sky-500 hover:bg-sky-600 text-white shadow-elegant hover:shadow-glow transition-all duration-300 group">
+              <Button asChild size="lg" className="px-10 py-7 text-lg bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-slate-50 shadow-elegant hover:shadow-glow transition-all duration-300 group">
                 <Link to="/browse">
                   <Search className="mr-3 h-6 w-6 transition-transform group-hover:scale-110" />
                   Explore Services
@@ -72,7 +72,7 @@ const Index = () => {
               <div className="relative flex-1 max-w-lg">
                 <Input 
                   placeholder="Search hotels, restaurants, hospitals..." 
-                  className="pl-6 pr-14 py-7 text-lg border-2 border-sky-300 focus:border-sky-500 bg-white backdrop-blur-sm rounded-xl shadow-lg transition-all duration-300 focus:shadow-elegant"
+                  className="pl-6 pr-14 py-7 text-lg border-2 border-sky-300 focus:border-sky-500 bg-slate-100 backdrop-blur-sm rounded-xl shadow-lg transition-all duration-300 focus:shadow-elegant"
                 />
                 <Search className="absolute right-5 top-1/2 transform -translate-y-1/2 h-6 w-6 text-slate-500" />
               </div>
@@ -172,7 +172,7 @@ const Index = () => {
                 Join thousands of residents and visitors who trust Discover Adama to navigate the city's best offerings
               </p>
               <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-                <Button asChild size="lg" className="px-12 py-8 text-xl bg-amber-500 hover:bg-amber-600 text-white shadow-elegant hover:shadow-glow transition-all duration-300 group">
+                <Button asChild size="lg" className="px-12 py-8 text-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-slate-50 shadow-elegant hover:shadow-glow transition-all duration-300 group">
                   <Link to="/browse">
                     <Sparkles className="mr-3 h-6 w-6 transition-transform group-hover:rotate-12" />
                     Start Exploring

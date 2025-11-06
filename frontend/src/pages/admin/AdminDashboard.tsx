@@ -266,20 +266,20 @@ const counts = useMemo(() => {
       <main className="container mx-auto flex-1 py-8">
         <div className="flex gap-6">
           {/* Sidebar */}
-          <aside className="w-56 shrink-0 border border-slate-200 rounded-md p-3 h-fit bg-white shadow-sm">
+          <aside className="w-56 shrink-0 border border-slate-200 rounded-md p-3 h-fit bg-slate-100 shadow-sm">
             <div className="font-semibold mb-2 text-slate-800">Admin</div>
             <div className="grid gap-2">
               <Button 
                 variant={activeTab === "services" ? "default" : "secondary"} 
                 onClick={() => { setActiveTab("services"); setSvcSubTab("list"); }}
-                className={activeTab === "services" ? "bg-sky-500 hover:bg-sky-600 text-white" : "bg-slate-100 hover:bg-slate-200 text-slate-700"}
+                className={activeTab === "services" ? "bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-slate-50" : "bg-slate-200 hover:bg-slate-300 text-slate-700"}
               >
                 Services
               </Button>
               <Button 
                 variant={activeTab === "categories" ? "default" : "secondary"} 
                 onClick={() => { setActiveTab("categories"); setCatSubTab("manage"); }}
-                className={activeTab === "categories" ? "bg-sky-500 hover:bg-sky-600 text-white" : "bg-slate-100 hover:bg-slate-200 text-slate-700"}
+                className={activeTab === "categories" ? "bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-slate-50" : "bg-slate-200 hover:bg-slate-300 text-slate-700"}
               >
                 Categories
               </Button>
@@ -320,7 +320,7 @@ const counts = useMemo(() => {
                         <CardHeader><CardTitle className="text-base">{cat.name}</CardTitle></CardHeader>
                         <CardContent>
                           <div className="text-3xl font-bold">{counts[cat._id] ?? 0}</div>
-                          <div className="text-xs text-muted-foreground">Total listings</div>
+                          <div className="text-xs text-slate-500">Total listings</div>
                         </CardContent>
                       </Card>
                     ))}
@@ -344,7 +344,7 @@ const counts = useMemo(() => {
                       <CardContent>
                         <div className="flex gap-2 pb-4">
                           <Input placeholder="New category name" value={catName} onChange={(e) => setCatName(e.target.value)} className="border-slate-300" />
-                          <Button onClick={createCategory} disabled={catLoading} className="bg-sky-500 hover:bg-sky-600 text-white">Add</Button>
+                          <Button onClick={createCategory} disabled={catLoading} className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-slate-50">Add</Button>
                         </div>
                         <div className="overflow-x-auto">
                           <Table>
@@ -385,16 +385,16 @@ const counts = useMemo(() => {
                             if (endPage < totalPages) pages.push(totalPages);
                             return (
                               <>
-                                <span className="text-sm text-muted-foreground">Page {catPage} of {totalPages}</span>
-                                <Button type="button" size="sm" variant="outline" className="rounded-full" disabled={catPage === 1} onClick={() => setCatPage(1)}>First</Button>
-                                <Button type="button" size="sm" variant="outline" className="rounded-full" disabled={catPage === 1} onClick={() => setCatPage((p) => Math.max(1, p - 1))}>Prev</Button>
+                                <span className="text-sm text-slate-500">Page {catPage} of {totalPages}</span>
+                                <Button type="button" size="sm" variant="outline" className="rounded-full border-slate-300 text-slate-700 hover:bg-slate-100" disabled={catPage === 1} onClick={() => setCatPage(1)}>First</Button>
+                                <Button type="button" size="sm" variant="outline" className="rounded-full border-slate-300 text-slate-700 hover:bg-slate-100" disabled={catPage === 1} onClick={() => setCatPage((p) => Math.max(1, p - 1))}>Prev</Button>
                                 {pages.map((p, idx) => p === -1 ? (
-                                  <span key={`ce-${idx}`} className="px-2 text-muted-foreground">…</span>
+                                  <span key={`ce-${idx}`} className="px-2 text-slate-500">…</span>
                                 ) : (
-                                  <Button type="button" key={p} size="sm" variant={p === catPage ? "default" : "ghost"} className={`rounded-full ${p === catPage ? "" : "hover:bg-muted"}`} onClick={() => setCatPage(p)}>{p}</Button>
+                                  <Button type="button" key={p} size="sm" variant={p === catPage ? "default" : "ghost"} className={`rounded-full ${p === catPage ? "bg-sky-500 hover:bg-sky-600 text-white" : "hover:bg-slate-100 text-slate-700"}`} onClick={() => setCatPage(p)}>{p}</Button>
                                 ))}
-                                <Button type="button" size="sm" variant="outline" className="rounded-full" disabled={catPage === totalPages} onClick={() => setCatPage((p) => Math.min(totalPages, p + 1))}>Next</Button>
-                                <Button type="button" size="sm" variant="outline" className="rounded-full" disabled={catPage === totalPages} onClick={() => setCatPage(totalPages)}>Last</Button>
+                                <Button type="button" size="sm" variant="outline" className="rounded-full border-slate-300 text-slate-700 hover:bg-slate-100" disabled={catPage === totalPages} onClick={() => setCatPage((p) => Math.min(totalPages, p + 1))}>Next</Button>
+                                <Button type="button" size="sm" variant="outline" className="rounded-full border-slate-300 text-slate-700 hover:bg-slate-100" disabled={catPage === totalPages} onClick={() => setCatPage(totalPages)}>Last</Button>
                               </>
                             );
                           })()}
@@ -466,16 +466,16 @@ const counts = useMemo(() => {
                           if (endPage < totalPages) pages.push(totalPages);
                           return (
                             <>
-                              <span className="text-sm text-muted-foreground">Page {svcPage} of {totalPages}</span>
-                              <Button type="button" size="sm" variant="outline" className="rounded-full" disabled={svcPage === 1} onClick={() => setSvcPage(1)}>First</Button>
-                              <Button type="button" size="sm" variant="outline" className="rounded-full" disabled={svcPage === 1} onClick={() => setSvcPage((p) => Math.max(1, p - 1))}>Prev</Button>
+                              <span className="text-sm text-slate-500">Page {svcPage} of {totalPages}</span>
+                              <Button type="button" size="sm" variant="outline" className="rounded-full border-slate-300 text-slate-700 hover:bg-slate-100" disabled={svcPage === 1} onClick={() => setSvcPage(1)}>First</Button>
+                              <Button type="button" size="sm" variant="outline" className="rounded-full border-slate-300 text-slate-700 hover:bg-slate-100" disabled={svcPage === 1} onClick={() => setSvcPage((p) => Math.max(1, p - 1))}>Prev</Button>
                               {pages.map((p, idx) => p === -1 ? (
-                                <span key={`e-${idx}`} className="px-2 text-muted-foreground">…</span>
+                                <span key={`e-${idx}`} className="px-2 text-slate-500">…</span>
                               ) : (
-                                <Button type="button" key={p} size="sm" variant={p === svcPage ? "default" : "ghost"} className={`rounded-full ${p === svcPage ? "" : "hover:bg-muted"}`} onClick={() => setSvcPage(p)}>{p}</Button>
+                                <Button type="button" key={p} size="sm" variant={p === svcPage ? "default" : "ghost"} className={`rounded-full ${p === svcPage ? "bg-sky-500 hover:bg-sky-600 text-white" : "hover:bg-slate-100 text-slate-700"}`} onClick={() => setSvcPage(p)}>{p}</Button>
                               ))}
-                              <Button type="button" size="sm" variant="outline" className="rounded-full" disabled={svcPage === totalPages} onClick={() => setSvcPage((p) => Math.min(totalPages, p + 1))}>Next</Button>
-                              <Button type="button" size="sm" variant="outline" className="rounded-full" disabled={svcPage === totalPages} onClick={() => setSvcPage(totalPages)}>Last</Button>
+                              <Button type="button" size="sm" variant="outline" className="rounded-full border-slate-300 text-slate-700 hover:bg-slate-100" disabled={svcPage === totalPages} onClick={() => setSvcPage((p) => Math.min(totalPages, p + 1))}>Next</Button>
+                              <Button type="button" size="sm" variant="outline" className="rounded-full border-slate-300 text-slate-700 hover:bg-slate-100" disabled={svcPage === totalPages} onClick={() => setSvcPage(totalPages)}>Last</Button>
                             </>
                           );
                         })()}
@@ -560,7 +560,7 @@ const counts = useMemo(() => {
                         </div>
 
                         <div className="flex gap-2 pt-2">
-                          <Button type="submit" disabled={svcSaving} className="bg-sky-500 hover:bg-sky-600 text-white">
+                          <Button type="submit" disabled={svcSaving} className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-slate-50">
                             {svcSaving ? (editingId ? "Saving..." : "Adding...") : (editingId ? "Save Changes" : "Add Service")}
                           </Button>
                           {editingId && (

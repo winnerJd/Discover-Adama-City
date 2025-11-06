@@ -12,28 +12,28 @@ All colors MUST be HSL.
     --background: 210 40% 98%; /* slate-50 */
     --foreground: 222 47% 11%; /* slate-800 */
 
-    --card: 0 0% 100%;
+    --card: 210 40% 96%; /* slate-100 */
     --card-foreground: 222 47% 11%;
 
-    --popover: 0 0% 100%;
+    --popover: 210 40% 96%; /* slate-100 */
     --popover-foreground: 222 47% 11%;
 
     /* Primary Colors - Sky Blue */
     --primary: 199 89% 48%; /* sky-500 */
-    --primary-foreground: 0 0% 100%;
+    --primary-foreground: 210 40% 98%; /* slate-50 */
 
     /* Secondary Colors - Amber */
     --secondary: 43 96% 56%; /* amber-500 */
-    --secondary-foreground: 0 0% 100%;
+    --secondary-foreground: 210 40% 98%; /* slate-50 */
 
     --muted: 210 40% 96%; /* slate-100 */
     --muted-foreground: 215 16% 47%; /* slate-500 */
 
     --accent: 199 89% 48%; /* sky-500 */
-    --accent-foreground: 0 0% 100%;
+    --accent-foreground: 210 40% 98%; /* slate-50 */
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive-foreground: 210 40% 98%; /* slate-50 */
 
     --border: 214 32% 91%;
     --input: 214 32% 91%;
@@ -45,7 +45,7 @@ All colors MUST be HSL.
     --sidebar-background: 210 40% 98%;
     --sidebar-foreground: 222 47% 11%;
     --sidebar-primary: 199 89% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-primary-foreground: 210 40% 98%; /* slate-50 */
     --sidebar-accent: 210 40% 96%;
     --sidebar-accent-foreground: 222 47% 11%;
     --sidebar-border: 214 32% 91%;
@@ -56,6 +56,7 @@ All colors MUST be HSL.
     --brand-glow: 43 96% 56%; /* amber-500 */
     --gradient-primary: linear-gradient(to right, hsl(199, 89%, 48%), hsl(43, 96%, 56%)); /* sky-500 to amber-400 */
     --gradient-evening: linear-gradient(to bottom, hsl(199, 89%, 40%), hsl(222, 47%, 11%)); /* sky-700 to slate-900 */
+    --gradient-vibrant: linear-gradient(to right, hsl(238, 83%, 52%), hsl(271, 81%, 56%), hsl(330, 81%, 60%)); /* indigo-500 via purple-500 to pink-500 */
     --shadow-elegant: 0 10px 30px -10px hsl(199, 89%, 48% / 0.25);
     --shadow-glow: 0 10px 25px -5px hsl(43, 96%, 56% / 0.35);
     --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
@@ -106,7 +107,7 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-slate-50 text-slate-800;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 
@@ -122,15 +123,15 @@ All colors MUST be HSL.
   }
 
   ::-webkit-scrollbar-track {
-    @apply bg-muted/50;
+    @apply bg-slate-100;
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-muted-foreground/30 rounded-full;
+    @apply bg-slate-400 rounded-full;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-muted-foreground/50;
+    @apply bg-slate-500;
   }
 }
 
@@ -147,6 +148,11 @@ All colors MUST be HSL.
   
   .bg-skyline-glow {
     background-image: linear-gradient(to right, hsl(199, 89%, 48%), hsl(43, 96%, 56%));
+  }
+  
+  .bg-gradient-vibrant {
+    background-image: var(--gradient-vibrant);
+    color: hsl(var(--primary-foreground));
   }
   
   .shadow-elegant { 
@@ -235,9 +241,9 @@ All colors MUST be HSL.
 
   /* Glass morphism */
   .glass {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(210, 40%, 96%, 0.1); /* slate-100 with opacity */
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(210, 40%, 96%, 0.2);
   }
 
   /* Hover lift effect */

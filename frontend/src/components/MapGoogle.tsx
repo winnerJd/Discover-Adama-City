@@ -80,7 +80,7 @@ const MapGoogle: React.FC<Props> = ({ services, height = "500px" }) => {
 
   if (!apiKey) {
     return (
-      <div className="flex flex-col items-center justify-center rounded-lg border p-8 text-center bg-muted/30">
+      <div className="flex flex-col items-center justify-center rounded-lg border p-8 text-center bg-slate-100">
         
         <a
           href="https://developers.google.com/maps/documentation/javascript/get-api-key"

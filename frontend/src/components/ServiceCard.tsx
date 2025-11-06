@@ -61,11 +61,11 @@ const ServiceCard: React.FC<{ service: Service }> = ({ service }) => {
   const lng = (service as any).coordinates?.lng ?? (service as any).longitude;
 
   return (
-    <Card className="group overflow-hidden hover:shadow-elegant hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-border/50 bg-card/50 backdrop-blur-sm">
+    <Card className="group overflow-hidden hover:shadow-elegant hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-slate-200 bg-slate-100 backdrop-blur-sm">
       {/* Image Section with Overlay */}
-      <div className="relative aspect-[16/9] overflow-hidden bg-muted">
+      <div className="relative aspect-[16/9] overflow-hidden bg-slate-100">
         {!imageLoaded && !imageError && (
-          <div className="absolute inset-0 animate-pulse bg-gradient-to-r from-muted via-muted/50 to-muted" />
+          <div className="absolute inset-0 animate-pulse bg-gradient-to-r from-slate-100 via-slate-50 to-slate-100" />
         )}
         <img
           src={imageError ? (defaultImageByCategory[(categoryName as keyof typeof defaultImageByCategory) || "Hotel"] ?? "https://via.placeholder.com/400") : imgSrc}
@@ -78,13 +78,13 @@ const ServiceCard: React.FC<{ service: Service }> = ({ service }) => {
           }`}
         />
         {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/30 to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/30 to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
         
         {/* Category Badge on Image */}
         {categoryName && (
           <Badge 
             variant="secondary" 
-            className="absolute top-3 right-3 shadow-lg backdrop-blur-sm bg-background/80 border-border/50"
+            className="absolute top-3 right-3 shadow-lg backdrop-blur-sm bg-slate-100/90 border-slate-200 text-slate-800"
           >
             {categoryName}
           </Badge>
@@ -92,7 +92,7 @@ const ServiceCard: React.FC<{ service: Service }> = ({ service }) => {
 
         {/* Rating Badge */}
         {service.rating && (
-          <div className="absolute top-3 left-3 flex items-center gap-1 px-2 py-1 rounded-full bg-white/90 backdrop-blur-sm shadow-lg">
+          <div className="absolute top-3 left-3 flex items-center gap-1 px-2 py-1 rounded-full bg-slate-100/90 backdrop-blur-sm shadow-lg">
             <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
             <span className="text-xs font-semibold text-slate-800">{service.rating.toFixed(1)}</span>
           </div>
@@ -100,13 +100,13 @@ const ServiceCard: React.FC<{ service: Service }> = ({ service }) => {
       </div>
 
       <CardHeader className="pb-3">
-        <CardTitle className="text-xl font-bold group-hover:text-primary transition-colors line-clamp-2 min-h-[3rem]">
+        <CardTitle className="text-xl font-bold text-slate-800 group-hover:text-sky-600 transition-colors line-clamp-2 min-h-[3rem]">
           {service.name}
         </CardTitle>
       </CardHeader>
 
       <CardContent className="space-y-4">
-        <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
+        <p className="text-sm text-slate-600 line-clamp-2 leading-relaxed">
           {service.description}
         </p>
 
@@ -132,7 +132,7 @@ const ServiceCard: React.FC<{ service: Service }> = ({ service }) => {
             asChild 
             variant="default" 
             size="sm" 
-            className="flex-1 group/btn bg-sky-500 hover:bg-sky-600 text-white"
+            className="flex-1 group/btn bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-slate-50"
           >
             <Link to={`/service/${service._id}`}>
               View Details

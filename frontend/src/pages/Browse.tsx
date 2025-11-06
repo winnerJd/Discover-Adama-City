@@ -97,15 +97,15 @@ const Browse: React.FC = () => {
         }`}
       >
         {isAI && (
-          <div className="w-8 h-8 rounded-full bg-skyline-glow flex items-center justify-center flex-shrink-0 mt-1">
-            <Sparkles className="h-4 w-4 text-white" />
+          <div className="w-8 h-8 rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0 mt-1">
+            <Sparkles className="h-4 w-4 text-slate-50" />
           </div>
         )}
         <div
           className={`max-w-[75%] px-4 py-3 rounded-2xl break-words shadow-sm ${
             isAI
-              ? "bg-gradient-to-br from-sky-50 to-amber-50 border border-sky-200 text-slate-800"
-              : "bg-sky-500 text-white"
+              ? "bg-gradient-to-br from-blue-50 via-emerald-50 to-teal-100 border border-slate-300 text-slate-800"
+              : "bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-slate-50"
           }`}
         >
           <ReactMarkdown className="prose prose-sm dark:prose-invert max-w-none">
@@ -113,8 +113,8 @@ const Browse: React.FC = () => {
           </ReactMarkdown>
         </div>
         {!isAI && (
-          <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center flex-shrink-0 mt-1">
-            <span className="text-xs font-semibold">You</span>
+          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-50 via-emerald-50 to-teal-100 flex items-center justify-center flex-shrink-0 mt-1">
+            <span className="text-xs font-semibold text-slate-800">You</span>
           </div>
         )}
       </div>
@@ -122,7 +122,7 @@ const Browse: React.FC = () => {
   };
 
     return (
-      <div className="min-h-screen flex flex-col bg-slate-50">
+      <div className="min-h-screen flex flex-col bg-gradient-to-br from-blue-50 via-emerald-50 to-teal-100">
       <Helmet>
         <title>Browse Services — Discover Adama</title>
         <meta
@@ -135,7 +135,7 @@ const Browse: React.FC = () => {
       <SiteHeader />
 
       {/* Enhanced Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-sky-50 via-slate-50 to-amber-50 border-b">
+      <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-emerald-50 to-teal-100 border-b">
         <div className="absolute inset-0 opacity-30">
           <div className="absolute top-0 left-0 w-72 h-72 bg-sky-200 rounded-full blur-3xl"></div>
           <div className="absolute bottom-0 right-0 w-72 h-72 bg-amber-200 rounded-full blur-3xl"></div>
@@ -160,7 +160,7 @@ const Browse: React.FC = () => {
 
       <main className="container mx-auto flex-1 py-8 px-4 space-y-8">
         {/* Enhanced Search Filters */}
-        <div className="bg-card/50 backdrop-blur-sm rounded-2xl border shadow-elegant p-6 md:p-8 hover:shadow-xl transition-shadow duration-300">
+        <div className="bg-gradient-to-br from-blue-50 via-emerald-50 to-teal-100 backdrop-blur-sm rounded-2xl border shadow-elegant p-6 md:p-8 hover:shadow-xl transition-shadow duration-300">
           <SearchFilters 
             filters={filters}
             onChange={(f) => {
@@ -283,10 +283,10 @@ const Browse: React.FC = () => {
 
       {/* Enhanced AI Studio Chat */}
       <div className="container mx-auto px-4 pb-8">
-        <div className="bg-card/50 backdrop-blur-sm rounded-2xl border shadow-elegant p-6 md:p-8">
+        <div className="bg-gradient-to-br from-blue-50 via-emerald-50 to-teal-100 backdrop-blur-sm rounded-2xl border shadow-elegant p-6 md:p-8">
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 rounded-full bg-skyline-glow flex items-center justify-center">
-              <MessageSquare className="h-5 w-5 text-white" />
+            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center">
+              <MessageSquare className="h-5 w-5 text-slate-50" />
             </div>
             <div>
               <h3 className="text-xl font-bold text-slate-800">Ask Discover Adama AI</h3>
@@ -294,9 +294,9 @@ const Browse: React.FC = () => {
             </div>
           </div>
 
-          <div className="h-80 overflow-y-auto border rounded-xl p-4 flex flex-col bg-muted/30 mb-4 scrollbar-thin">
+          <div className="h-80 overflow-y-auto border border-slate-200 rounded-xl p-4 flex flex-col bg-gradient-to-br from-blue-50 via-emerald-50 to-teal-100 mb-4 scrollbar-thin">
             {messages.length === 0 && (
-              <div className="flex-1 flex items-center justify-center text-center text-muted-foreground">
+              <div className="flex-1 flex items-center justify-center text-center text-slate-500">
                 <div className="space-y-2">
                   <Sparkles className="h-8 w-8 mx-auto opacity-50" />
                   <p>Start a conversation to get recommendations</p>
@@ -308,11 +308,11 @@ const Browse: React.FC = () => {
             ))}
             {loading && (
               <div className="flex gap-3 mb-4">
-                <div className="w-8 h-8 rounded-full bg-skyline-glow flex items-center justify-center flex-shrink-0 mt-1">
-                  <Sparkles className="h-4 w-4 text-white" />
+                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0 mt-1">
+                  <Sparkles className="h-4 w-4 text-slate-50" />
                 </div>
-                <div className="px-4 py-3 rounded-2xl bg-gradient-to-br from-sky-50 to-amber-50 border border-sky-200">
-                  <Loader2 className="h-4 w-4 animate-spin text-sky-500" />
+                <div className="px-4 py-3 rounded-2xl bg-gradient-to-br from-blue-50 via-emerald-50 to-teal-100 border border-slate-300">
+                  <Loader2 className="h-4 w-4 animate-spin text-indigo-500" />
                 </div>
               </div>
             )}
@@ -326,7 +326,7 @@ const Browse: React.FC = () => {
                 value={aiPrompt}
                 onChange={(e) => setAiPrompt(e.target.value)}
                 placeholder="Ask about hotels, restaurants, hospitals, attractions..."
-                className="w-full border rounded-xl px-4 py-3 pr-12 focus:outline-none focus:ring-2 focus:ring-sky-500/50 bg-white border-slate-300"
+                className="w-full border rounded-xl px-4 py-3 pr-12 focus:outline-none focus:ring-2 focus:ring-sky-500/50 bg-gradient-to-br from-blue-50 via-emerald-50 to-teal-100 border-slate-300"
                 onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && askAIStudio()}
                 disabled={loading}
               />
@@ -342,7 +342,7 @@ const Browse: React.FC = () => {
             <Button 
               onClick={askAIStudio} 
               disabled={loading || !aiPrompt.trim()}
-              className="px-6 bg-sky-500 hover:bg-sky-600 text-white"
+              className="px-6 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-slate-50"
             >
               {loading ? (
                 <>

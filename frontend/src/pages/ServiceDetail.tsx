@@ -80,8 +80,8 @@ const ServiceDetail: React.FC = () => {
         <SiteHeader />
         <main className="container mx-auto flex-1 py-20 flex items-center justify-center">
           <div className="text-center space-y-4">
-            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-primary mx-auto"></div>
-            <p className="text-xl text-muted-foreground">Loading service details...</p>
+            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-sky-500 mx-auto"></div>
+            <p className="text-xl text-slate-600">Loading service details...</p>
           </div>
         </main>
         <SiteFooter />
@@ -97,7 +97,7 @@ const ServiceDetail: React.FC = () => {
           <div className="space-y-4 max-w-md mx-auto">
             <div className="text-6xl">😕</div>
             <h2 className="text-2xl font-bold">{error || "Service not found."}</h2>
-            <p className="text-muted-foreground">The service you're looking for doesn't exist or has been removed.</p>
+            <p className="text-slate-600">The service you're looking for doesn't exist or has been removed.</p>
             <Button asChild>
               <Link to="/browse">Back to Browse</Link>
             </Button>
@@ -148,7 +148,7 @@ const ServiceDetail: React.FC = () => {
           alt={svc.name}
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-50 via-slate-50/50 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
           <div className="container mx-auto">
             <Button asChild variant="secondary" size="sm" className="mb-4">
@@ -185,7 +185,7 @@ const ServiceDetail: React.FC = () => {
         <div className="grid gap-8 lg:grid-cols-[1.1fr_minmax(420px,0.9fr)]">
           {/* Left Column - Details */}
           <div className="space-y-6">
-            <Card className="bg-white backdrop-blur-sm border-slate-200">
+            <Card className="bg-slate-100 backdrop-blur-sm border-slate-200">
               <CardHeader>
                 <CardTitle className="text-subtitle text-2xl font-bold text-slate-800">About</CardTitle>
               </CardHeader>
@@ -243,7 +243,7 @@ const ServiceDetail: React.FC = () => {
                 )}
 
                 <div className="flex flex-wrap gap-3 pt-4 border-t border-slate-200">
-                  <Button asChild size="lg" className="flex-1 min-w-[200px] bg-sky-500 hover:bg-sky-600 text-white">
+                  <Button asChild size="lg" className="flex-1 min-w-[200px] bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-slate-50">
                     <a 
                       href={`https://www.google.com/maps/dir/?api=1&destination=${svc.coordinates.lat},${svc.coordinates.lng}`} 
                       target="_blank" 
@@ -265,13 +265,13 @@ const ServiceDetail: React.FC = () => {
 
             {/* Image Gallery */}
             {imagesArr.length > 0 ? (
-              <Card className="bg-white backdrop-blur-sm border-slate-200">
+              <Card className="bg-slate-100 backdrop-blur-sm border-slate-200">
                 <CardHeader>
                   <CardTitle className="text-subtitle text-2xl font-bold text-slate-800">Gallery</CardTitle>
                 </CardHeader>
                 <CardContent>
                   {/* Main Image */}
-                  <div className="relative aspect-video rounded-xl overflow-hidden mb-4 bg-muted">
+                  <div className="relative aspect-video rounded-xl overflow-hidden mb-4 bg-slate-100">
                     <img
                       src={toImageUrl(imagesArr[selectedImageIndex])}
                       alt={`${svc.name} - Image ${selectedImageIndex + 1}`}
@@ -289,8 +289,8 @@ const ServiceDetail: React.FC = () => {
                           onClick={() => setSelectedImageIndex(idx)}
                           className={`relative aspect-video rounded-lg overflow-hidden border-2 transition-all ${
                             selectedImageIndex === idx
-                              ? 'border-primary ring-2 ring-primary/20'
-                              : 'border-transparent hover:border-primary/50'
+                              ? 'border-sky-500 ring-2 ring-sky-500/20'
+                              : 'border-transparent hover:border-sky-500/50'
                           }`}
                         >
                           <img
@@ -306,7 +306,7 @@ const ServiceDetail: React.FC = () => {
                 </CardContent>
               </Card>
             ) : (
-              <Card className="bg-white backdrop-blur-sm border-slate-200">
+              <Card className="bg-slate-100 backdrop-blur-sm border-slate-200">
                 <CardHeader>
                   <CardTitle className="text-subtitle text-2xl font-bold text-slate-800">Gallery</CardTitle>
                 </CardHeader>
@@ -319,12 +319,12 @@ const ServiceDetail: React.FC = () => {
             )}
             {/* Video Section */}
             {videoUrl && (
-              <Card className="bg-white backdrop-blur-sm border-slate-200">
+              <Card className="bg-slate-100 backdrop-blur-sm border-slate-200">
                 <CardHeader>
                   <CardTitle className="text-subtitle text-2xl font-bold text-slate-800">Video</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="w-full aspect-video rounded-xl overflow-hidden bg-muted">
+                  <div className="w-full aspect-video rounded-xl overflow-hidden bg-slate-100">
                     {getEmbedUrl(videoUrl)?.includes("youtube.com/embed/") ? (
                       <iframe
                         title={`${svc.name} video`}
@@ -354,7 +354,7 @@ const ServiceDetail: React.FC = () => {
 
           {/* Right Column - Map */}
           <div className="space-y-6">
-            <Card className="bg-white backdrop-blur-sm sticky top-24 border-slate-200">
+            <Card className="bg-slate-100 backdrop-blur-sm sticky top-24 border-slate-200">
               <CardHeader>
                 <CardTitle className="text-subtitle text-2xl font-bold text-slate-800">Location</CardTitle>
               </CardHeader>

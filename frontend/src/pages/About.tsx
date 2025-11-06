@@ -30,10 +30,10 @@ const About: React.FC = () => {
       <main className="container mx-auto flex-1 py-16 space-y-16">
         {/* Mission Section */}
         <section className="max-w-4xl mx-auto animate-fade-in">
-          <div className="bg-card rounded-3xl border shadow-elegant p-8 md:p-12">
+          <div className="bg-slate-100 rounded-3xl border shadow-elegant p-8 md:p-12">
             <div className="text-center space-y-6">
-              <div className="w-16 h-16 mx-auto bg-skyline-glow rounded-2xl flex items-center justify-center">
-                <span className="text-2xl text-white">🏙️</span>
+              <div className="w-16 h-16 mx-auto bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-2xl flex items-center justify-center">
+                <span className="text-2xl text-slate-50">🏙️</span>
               </div>
               <h2 className="text-subtitle md:text-3xl md:text-4xl font-bold text-slate-800">Our Mission</h2>
               <p className="text-paragraph text-slate-700 max-w-3xl mx-auto">
@@ -45,11 +45,11 @@ const About: React.FC = () => {
 
         {/* Smart City Initiative */}
         <section className="max-w-4xl mx-auto animate-fade-in">
-          <div className="bg-gradient-to-br from-card to-muted/20 rounded-3xl border shadow-elegant p-8 md:p-12">
+          <div className="bg-gradient-to-br from-slate-100 to-slate-200 rounded-3xl border shadow-elegant p-8 md:p-12">
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div className="space-y-6">
-                <div className="w-16 h-16 bg-skyline-glow rounded-2xl flex items-center justify-center">
-                  <span className="text-2xl text-white">⚡</span>
+                <div className="w-16 h-16 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-2xl flex items-center justify-center">
+                  <span className="text-2xl text-slate-50">⚡</span>
                 </div>
                 <h2 className="text-subtitle text-3xl font-bold text-slate-800">Smart City Technology</h2>
                 <p className="text-paragraph text-slate-700">
@@ -57,19 +57,19 @@ const About: React.FC = () => {
                 </p>
               </div>
               <div className="grid grid-cols-2 gap-4">
-                <div className="bg-background rounded-2xl p-6 text-center shadow-sm">
+                <div className="bg-slate-100 rounded-2xl p-6 text-center shadow-sm">
                   <div className="text-2xl mb-2">🏥</div>
                   <div className="font-semibold">Healthcare</div>
                 </div>
-                <div className="bg-background rounded-2xl p-6 text-center shadow-sm">
+                <div className="bg-slate-100 rounded-2xl p-6 text-center shadow-sm">
                   <div className="text-2xl mb-2">🏨</div>
                   <div className="font-semibold">Hospitality</div>
                 </div>
-                <div className="bg-background rounded-2xl p-6 text-center shadow-sm">
+                <div className="bg-slate-100 rounded-2xl p-6 text-center shadow-sm">
                   <div className="text-2xl mb-2">🏛️</div>
                   <div className="font-semibold">Government</div>
                 </div>
-                <div className="bg-background rounded-2xl p-6 text-center shadow-sm">
+                <div className="bg-slate-100 rounded-2xl p-6 text-center shadow-sm">
                   <div className="text-2xl mb-2">🚌</div>
                   <div className="font-semibold">Transport</div>
                 </div>
@@ -122,11 +122,11 @@ const About: React.FC = () => {
             ].map((feature, index) => (
               <div 
                 key={index}
-                className="bg-card rounded-2xl border shadow-elegant p-6 hover-scale transition-all duration-300 hover:shadow-glow"
+                className="bg-slate-100 rounded-2xl border shadow-elegant p-6 hover-scale transition-all duration-300 hover:shadow-glow"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
-                <div className="w-12 h-12 bg-sky-500 rounded-xl flex items-center justify-center mb-4">
-                  <span className="text-xl">{feature.icon}</span>
+                <div className="w-12 h-12 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-xl flex items-center justify-center mb-4">
+                  <span className="text-xl text-slate-50">{feature.icon}</span>
                 </div>
                 <h3 className="text-xl font-semibold mb-3 text-slate-800">{feature.title}</h3>
                 <p className="text-slate-700 leading-relaxed">{feature.description}</p>
@@ -137,7 +137,7 @@ const About: React.FC = () => {
 
         {/* Contact/CTA Section */}
         <section className="max-w-4xl mx-auto animate-fade-in">
-          <div className="bg-skyline-glow rounded-3xl p-8 md:p-12 text-center text-white">
+          <div className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-3xl p-8 md:p-12 text-center text-slate-50">
             <div className="space-y-6">
               <h2 className="text-subtitle md:text-3xl md:text-4xl font-bold">Ready to Explore?</h2>
               <p className="text-paragraph text-white/90 max-w-2xl mx-auto">
@@ -146,7 +146,7 @@ const About: React.FC = () => {
               <div className="pt-4">
                 <a 
                   href="/browse" 
-                  className="inline-flex items-center gap-2 bg-white text-sky-600 px-8 py-4 rounded-full font-semibold hover:bg-white/90 transition-colors hover-scale"
+                  className="inline-flex items-center gap-2 bg-slate-100 text-sky-600 px-8 py-4 rounded-full font-semibold hover:bg-slate-200 transition-colors hover-scale"
                 >
                   Browse Services
                   <span>→</span>
