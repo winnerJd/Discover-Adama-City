@@ -92,9 +92,9 @@ const ServiceCard: React.FC<{ service: Service }> = ({ service }) => {
 
         {/* Rating Badge */}
         {service.rating && (
-          <div className="absolute top-3 left-3 flex items-center gap-1 px-2 py-1 rounded-full bg-background/90 backdrop-blur-sm shadow-lg">
-            <Star className="h-3.5 w-3.5 fill-yellow-400 text-yellow-400" />
-            <span className="text-xs font-semibold">{service.rating.toFixed(1)}</span>
+          <div className="absolute top-3 left-3 flex items-center gap-1 px-2 py-1 rounded-full bg-white/90 backdrop-blur-sm shadow-lg">
+            <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+            <span className="text-xs font-semibold text-slate-800">{service.rating.toFixed(1)}</span>
           </div>
         )}
       </div>
@@ -112,14 +112,14 @@ const ServiceCard: React.FC<{ service: Service }> = ({ service }) => {
 
         {/* Location & Contact Info */}
         <div className="space-y-2 text-sm">
-          <div className="flex items-start gap-2 text-muted-foreground">
-            <MapPin className="h-4 w-4 mt-0.5 text-primary flex-shrink-0" />
+          <div className="flex items-start gap-2 text-slate-600">
+            <MapPin className="h-4 w-4 mt-0.5 text-sky-500 flex-shrink-0" />
             <span className="line-clamp-1">{service.location}</span>
           </div>
           {service.phone && (
-            <div className="flex items-center gap-2 text-muted-foreground">
-              <Phone className="h-4 w-4 text-primary flex-shrink-0" />
-              <a href={`tel:${service.phone}`} className="hover:text-primary transition-colors">
+            <div className="flex items-center gap-2 text-slate-600">
+              <Phone className="h-4 w-4 text-sky-500 flex-shrink-0" />
+              <a href={`tel:${service.phone}`} className="hover:text-sky-600 transition-colors">
                 {service.phone}
               </a>
             </div>
@@ -127,12 +127,12 @@ const ServiceCard: React.FC<{ service: Service }> = ({ service }) => {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex items-center gap-2 pt-2 border-t border-border/50">
+        <div className="flex items-center gap-2 pt-2 border-t border-slate-200">
           <Button 
             asChild 
             variant="default" 
             size="sm" 
-            className="flex-1 group/btn"
+            className="flex-1 group/btn bg-sky-500 hover:bg-sky-600 text-white"
           >
             <Link to={`/service/${service._id}`}>
               View Details
@@ -143,7 +143,7 @@ const ServiceCard: React.FC<{ service: Service }> = ({ service }) => {
             asChild 
             variant="outline" 
             size="sm"
-            className="group/dir"
+            className="group/dir border-sky-500 text-sky-500 hover:bg-sky-500 hover:text-white"
             onClick={(e) => {
               e.stopPropagation();
             }}

@@ -97,15 +97,15 @@ const Browse: React.FC = () => {
         }`}
       >
         {isAI && (
-          <div className="w-8 h-8 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center flex-shrink-0 mt-1">
+          <div className="w-8 h-8 rounded-full bg-skyline-glow flex items-center justify-center flex-shrink-0 mt-1">
             <Sparkles className="h-4 w-4 text-white" />
           </div>
         )}
         <div
           className={`max-w-[75%] px-4 py-3 rounded-2xl break-words shadow-sm ${
             isAI
-              ? "bg-gradient-to-br from-primary/10 to-secondary/10 border border-primary/20 text-foreground"
-              : "bg-primary text-primary-foreground"
+              ? "bg-gradient-to-br from-sky-50 to-amber-50 border border-sky-200 text-slate-800"
+              : "bg-sky-500 text-white"
           }`}
         >
           <ReactMarkdown className="prose prose-sm dark:prose-invert max-w-none">
@@ -121,8 +121,8 @@ const Browse: React.FC = () => {
     );
   };
 
-  return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-background via-background to-muted/20">
+    return (
+      <div className="min-h-screen flex flex-col bg-slate-50">
       <Helmet>
         <title>Browse Services — Discover Adama</title>
         <meta
@@ -135,23 +135,23 @@ const Browse: React.FC = () => {
       <SiteHeader />
 
       {/* Enhanced Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-primary/10 via-background to-secondary/10 border-b">
+      <section className="relative overflow-hidden bg-gradient-to-br from-sky-50 via-slate-50 to-amber-50 border-b">
         <div className="absolute inset-0 opacity-30">
-          <div className="absolute top-0 left-0 w-72 h-72 bg-primary/20 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 right-0 w-72 h-72 bg-secondary/20 rounded-full blur-3xl"></div>
+          <div className="absolute top-0 left-0 w-72 h-72 bg-sky-200 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 right-0 w-72 h-72 bg-amber-200 rounded-full blur-3xl"></div>
         </div>
         <div className="container mx-auto px-4 py-12 md:py-16 relative">
           <div className="text-center space-y-4">
-            <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">
+            <h1 className="text-title md:text-4xl md:text-6xl tracking-tight bg-skyline-glow bg-clip-text text-transparent">
               Explore Adama Services
             </h1>
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+            <p className="text-paragraph md:text-xl md:text-2xl text-slate-700 max-w-3xl mx-auto">
               Discover hotels, hospitals, restaurants, transport and government services across the vibrant city of Adama
             </p>
             <div className="flex items-center justify-center gap-2 pt-4">
-              <div className="px-4 py-2 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-sm">
-                <span className="text-lg font-bold text-primary">{filtered.length}</span>
-                <span className="text-sm text-muted-foreground ml-2">services available</span>
+              <div className="px-4 py-2 rounded-full bg-sky-100 border border-sky-300 backdrop-blur-sm">
+                <span className="text-lg font-bold text-sky-600">{filtered.length}</span>
+                <span className="text-sm text-slate-500 ml-2">services available</span>
               </div>
             </div>
           </div>
@@ -177,12 +177,12 @@ const Browse: React.FC = () => {
         {/* Services List - single column for readability */}
         <div className="space-y-6">
             <div className="flex items-center justify-between">
-              <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
+              <h2 className="text-subtitle md:text-2xl md:text-3xl font-bold tracking-tight text-slate-800">
                 {filters.q || filters.category !== "all" || filters.minRating > 0
                   ? `Search Results (${filtered.length})`
                   : "All Services"}
               </h2>
-              <div className="text-sm text-muted-foreground hidden sm:block">
+              <div className="text-sm text-slate-500 hidden sm:block">
                 Page {currentPage} of {totalPages} • {filtered.length} results
               </div>
             </div>
@@ -261,16 +261,16 @@ const Browse: React.FC = () => {
 
             {filtered.length === 0 && (
               <div className="text-center py-20 space-y-6">
-                <div className="w-32 h-32 mx-auto bg-gradient-to-br from-muted to-muted/50 rounded-full flex items-center justify-center text-6xl">
+                <div className="w-32 h-32 mx-auto bg-gradient-to-br from-slate-100 to-slate-200 rounded-full flex items-center justify-center text-6xl">
                   🔍
                 </div>
                 <div className="space-y-2">
-                  <h3 className="text-2xl font-bold">No services found</h3>
-                  <p className="text-muted-foreground max-w-md mx-auto">
+                  <h3 className="text-2xl font-bold text-slate-800">No services found</h3>
+                  <p className="text-slate-700 max-w-md mx-auto">
                     We couldn't find any services matching your criteria. Try adjusting your filters.
                   </p>
                 </div>
-                <Button variant="outline" onClick={() => {
+                <Button variant="outline" className="border-sky-500 text-sky-500 hover:bg-sky-500 hover:text-white" onClick={() => {
                   setFilters({ q: "", category: "all", minRating: 0 });
                   setPage(1);
                 }}>
@@ -285,12 +285,12 @@ const Browse: React.FC = () => {
       <div className="container mx-auto px-4 pb-8">
         <div className="bg-card/50 backdrop-blur-sm rounded-2xl border shadow-elegant p-6 md:p-8">
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
+            <div className="w-10 h-10 rounded-full bg-skyline-glow flex items-center justify-center">
               <MessageSquare className="h-5 w-5 text-white" />
             </div>
             <div>
-              <h3 className="text-xl font-bold">Ask Discover Adama AI</h3>
-              <p className="text-sm text-muted-foreground">Get instant answers about services in Adama</p>
+              <h3 className="text-xl font-bold text-slate-800">Ask Discover Adama AI</h3>
+              <p className="text-sm text-slate-500">Get instant answers about services in Adama</p>
             </div>
           </div>
 
@@ -308,11 +308,11 @@ const Browse: React.FC = () => {
             ))}
             {loading && (
               <div className="flex gap-3 mb-4">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center flex-shrink-0 mt-1">
+                <div className="w-8 h-8 rounded-full bg-skyline-glow flex items-center justify-center flex-shrink-0 mt-1">
                   <Sparkles className="h-4 w-4 text-white" />
                 </div>
-                <div className="px-4 py-3 rounded-2xl bg-gradient-to-br from-primary/10 to-secondary/10 border border-primary/20">
-                  <Loader2 className="h-4 w-4 animate-spin text-primary" />
+                <div className="px-4 py-3 rounded-2xl bg-gradient-to-br from-sky-50 to-amber-50 border border-sky-200">
+                  <Loader2 className="h-4 w-4 animate-spin text-sky-500" />
                 </div>
               </div>
             )}
@@ -326,14 +326,14 @@ const Browse: React.FC = () => {
                 value={aiPrompt}
                 onChange={(e) => setAiPrompt(e.target.value)}
                 placeholder="Ask about hotels, restaurants, hospitals, attractions..."
-                className="w-full border rounded-xl px-4 py-3 pr-12 focus:outline-none focus:ring-2 focus:ring-primary/50 bg-background"
+                className="w-full border rounded-xl px-4 py-3 pr-12 focus:outline-none focus:ring-2 focus:ring-sky-500/50 bg-white border-slate-300"
                 onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && askAIStudio()}
                 disabled={loading}
               />
               {aiPrompt && (
                 <button
                   onClick={() => setAiPrompt("")}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-800"
                 >
                   ✕
                 </button>
@@ -342,7 +342,7 @@ const Browse: React.FC = () => {
             <Button 
               onClick={askAIStudio} 
               disabled={loading || !aiPrompt.trim()}
-              className="px-6"
+              className="px-6 bg-sky-500 hover:bg-sky-600 text-white"
             >
               {loading ? (
                 <>

@@ -123,7 +123,7 @@ const ServiceDetail: React.FC = () => {
   const videoUrl = toVideoUrl(firstVideo) ?? (typeof (svc as any)?.videoUrl === 'string' ? (svc as any).videoUrl : undefined);
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-background via-background to-muted/20">
+    <div className="min-h-screen flex flex-col bg-slate-50">
       <Helmet>
         <title>{svc.name} — Discover Adama</title>
         <meta name="description" content={`${svc.name} in ${svc.location}. Category: ${svc.category?.name ?? ""}.`} />
@@ -159,18 +159,18 @@ const ServiceDetail: React.FC = () => {
             </Button>
             <div className="flex items-start gap-4 flex-wrap">
               <div className="flex-1 min-w-0">
-                <h1 className="text-3xl md:text-5xl font-extrabold mb-3 text-white drop-shadow-lg">
+                <h1 className="text-title md:text-3xl md:text-5xl font-extrabold mb-3 text-white drop-shadow-lg">
                   {svc.name}
                 </h1>
                 <div className="flex items-center gap-3 flex-wrap">
                   {svc.category?.name && (
-                    <Badge variant="secondary" className="text-sm px-3 py-1">
+                    <Badge variant="secondary" className="text-sm px-3 py-1 bg-amber-100 text-amber-800 border-amber-300">
                       {svc.category.name}
                     </Badge>
                   )}
                   {svc.rating && (
                     <div className="flex items-center gap-1 text-white bg-black/30 backdrop-blur-sm px-3 py-1 rounded-full">
-                      <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                      <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
                       <span className="font-semibold">{svc.rating.toFixed(1)}</span>
                     </div>
                   )}
@@ -185,37 +185,37 @@ const ServiceDetail: React.FC = () => {
         <div className="grid gap-8 lg:grid-cols-[1.1fr_minmax(420px,0.9fr)]">
           {/* Left Column - Details */}
           <div className="space-y-6">
-            <Card className="bg-card/50 backdrop-blur-sm">
+            <Card className="bg-white backdrop-blur-sm border-slate-200">
               <CardHeader>
-                <CardTitle className="text-2xl">About</CardTitle>
+                <CardTitle className="text-subtitle text-2xl font-bold text-slate-800">About</CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
-                <p className="text-foreground leading-relaxed text-base md:text-lg">{svc.description}</p>
+                <p className="text-paragraph text-slate-700">{svc.description}</p>
                 
                 {/* Contact Information */}
-                <div className="space-y-4 pt-4 border-t">
-                  <h3 className="font-bold text-xl flex items-center gap-2 text-foreground">
-                    <Phone className="h-5 w-5 text-primary" />
+                <div className="space-y-4 pt-4 border-t border-slate-200">
+                  <h3 className="font-bold text-xl flex items-center gap-2 text-slate-800">
+                    <Phone className="h-5 w-5 text-sky-500" />
                     Contact Information
                   </h3>
                   <div className="space-y-4">
                     <div className="flex items-start gap-3">
-                      <MapPin className="h-5 w-5 text-primary mt-1 flex-shrink-0" />
-                      <span className="text-foreground text-base leading-relaxed">{svc.location}</span>
+                      <MapPin className="h-5 w-5 text-sky-500 mt-1 flex-shrink-0" />
+                      <span className="text-paragraph text-slate-700">{svc.location}</span>
                     </div>
                     {svc.phone && (
                       <div className="flex items-center gap-3">
-                        <Phone className="h-5 w-5 text-primary flex-shrink-0" />
-                        <a href={`tel:${svc.phone}`} className="text-primary hover:underline font-medium text-base">
+                        <Phone className="h-5 w-5 text-sky-500 flex-shrink-0" />
+                        <a href={`tel:${svc.phone}`} className="text-sky-600 hover:text-sky-700 hover:underline font-medium text-base">
                           {svc.phone}
                         </a>
                       </div>
                     )}
                     {svc.website && (
                       <div className="flex items-center gap-3">
-                        <Globe className="h-5 w-5 text-primary flex-shrink-0" />
+                        <Globe className="h-5 w-5 text-sky-500 flex-shrink-0" />
                         <a 
-                          className="text-primary hover:underline font-medium flex items-center gap-2 text-base" 
+                          className="text-sky-600 hover:text-sky-700 hover:underline font-medium flex items-center gap-2 text-base" 
                           href={svc.website} 
                           target="_blank" 
                           rel="noreferrer"
@@ -230,11 +230,11 @@ const ServiceDetail: React.FC = () => {
 
                 {/* Tags */}
                 {svc.tags && svc.tags.length > 0 && (
-                  <div className="space-y-3 pt-4 border-t">
-                    <h3 className="font-bold text-xl text-foreground">Features</h3>
+                  <div className="space-y-3 pt-4 border-t border-slate-200">
+                    <h3 className="font-bold text-xl text-slate-800">Features</h3>
                     <div className="flex flex-wrap gap-2">
                       {svc.tags.map((tag) => (
-                        <Badge key={tag} variant="outline" className="text-base px-4 py-2">
+                        <Badge key={tag} variant="outline" className="text-base px-4 py-2 border-sky-300 text-sky-700 bg-sky-50">
                           {tag}
                         </Badge>
                       ))}
@@ -242,8 +242,8 @@ const ServiceDetail: React.FC = () => {
                   </div>
                 )}
 
-                <div className="flex flex-wrap gap-3 pt-4 border-t">
-                  <Button asChild size="lg" className="flex-1 min-w-[200px]">
+                <div className="flex flex-wrap gap-3 pt-4 border-t border-slate-200">
+                  <Button asChild size="lg" className="flex-1 min-w-[200px] bg-sky-500 hover:bg-sky-600 text-white">
                     <a 
                       href={`https://www.google.com/maps/dir/?api=1&destination=${svc.coordinates.lat},${svc.coordinates.lng}`} 
                       target="_blank" 
@@ -253,7 +253,7 @@ const ServiceDetail: React.FC = () => {
                       Get Directions
                     </a>
                   </Button>
-                  <Button asChild variant="outline" size="lg">
+                  <Button asChild variant="outline" size="lg" className="border-sky-500 text-sky-500 hover:bg-sky-500 hover:text-white">
                     <Link to="/browse">
                       <ArrowLeft className="mr-2 h-5 w-5" />
                       Back
@@ -265,9 +265,9 @@ const ServiceDetail: React.FC = () => {
 
             {/* Image Gallery */}
             {imagesArr.length > 0 ? (
-              <Card className="bg-card/50 backdrop-blur-sm">
+              <Card className="bg-white backdrop-blur-sm border-slate-200">
                 <CardHeader>
-                  <CardTitle className="text-2xl font-bold text-foreground">Gallery</CardTitle>
+                  <CardTitle className="text-subtitle text-2xl font-bold text-slate-800">Gallery</CardTitle>
                 </CardHeader>
                 <CardContent>
                   {/* Main Image */}
@@ -316,13 +316,23 @@ const ServiceDetail: React.FC = () => {
                   </div>
                 </CardContent>
               </Card>
+            ) : (
+              <Card className="bg-white backdrop-blur-sm border-slate-200">
+                <CardHeader>
+                  <CardTitle className="text-subtitle text-2xl font-bold text-slate-800">Gallery</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-center py-12 text-slate-500">
+                    <p className="text-lg">No images available for this service</p>
+                  </div>
+                </CardContent>
+              </Card>
             )}
-
             {/* Video Section */}
             {videoUrl && (
-              <Card className="bg-card/50 backdrop-blur-sm">
+              <Card className="bg-white backdrop-blur-sm border-slate-200">
                 <CardHeader>
-                  <CardTitle className="text-2xl">Video</CardTitle>
+                  <CardTitle className="text-subtitle text-2xl font-bold text-slate-800">Video</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="w-full aspect-video rounded-xl overflow-hidden bg-muted">
@@ -355,17 +365,17 @@ const ServiceDetail: React.FC = () => {
 
           {/* Right Column - Map */}
           <div className="space-y-6">
-            <Card className="bg-card/50 backdrop-blur-sm sticky top-24">
+            <Card className="bg-white backdrop-blur-sm sticky top-24 border-slate-200">
               <CardHeader>
-                <CardTitle className="text-2xl">Location</CardTitle>
+                <CardTitle className="text-subtitle text-2xl font-bold text-slate-800">Location</CardTitle>
               </CardHeader>
               <CardContent className="p-0">
                 <div className="h-[520px] rounded-b-xl overflow-hidden">
                   <MapGoogle services={[svc]} height="100%" />
                 </div>
-                <div className="p-4 border-t">
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <MapPin className="h-4 w-4" />
+                <div className="p-4 border-t border-slate-200">
+                  <div className="flex items-center gap-2 text-sm text-slate-500">
+                    <MapPin className="h-4 w-4 text-sky-500" />
                     <span>{svc.location}</span>
                   </div>
                 </div>

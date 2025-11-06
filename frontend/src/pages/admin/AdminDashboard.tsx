@@ -254,7 +254,7 @@ const counts = useMemo(() => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-slate-50">
       <Helmet>
         <title>Admin Dashboard — Discover Adama</title>
         <meta name="description" content="Manage service listings and settings for Discover Adama." />
@@ -266,16 +266,28 @@ const counts = useMemo(() => {
       <main className="container mx-auto flex-1 py-8">
         <div className="flex gap-6">
           {/* Sidebar */}
-          <aside className="w-56 shrink-0 border rounded-md p-3 h-fit">
-            <div className="font-semibold mb-2">Admin</div>
+          <aside className="w-56 shrink-0 border border-slate-200 rounded-md p-3 h-fit bg-white shadow-sm">
+            <div className="font-semibold mb-2 text-slate-800">Admin</div>
             <div className="grid gap-2">
-              <Button variant={activeTab === "services" ? "default" : "secondary"} onClick={() => { setActiveTab("services"); setSvcSubTab("list"); }}>Services</Button>
-              <Button variant={activeTab === "categories" ? "default" : "secondary"} onClick={() => { setActiveTab("categories"); setCatSubTab("manage"); }}>Categories</Button>
+              <Button 
+                variant={activeTab === "services" ? "default" : "secondary"} 
+                onClick={() => { setActiveTab("services"); setSvcSubTab("list"); }}
+                className={activeTab === "services" ? "bg-sky-500 hover:bg-sky-600 text-white" : "bg-slate-100 hover:bg-slate-200 text-slate-700"}
+              >
+                Services
+              </Button>
+              <Button 
+                variant={activeTab === "categories" ? "default" : "secondary"} 
+                onClick={() => { setActiveTab("categories"); setCatSubTab("manage"); }}
+                className={activeTab === "categories" ? "bg-sky-500 hover:bg-sky-600 text-white" : "bg-slate-100 hover:bg-slate-200 text-slate-700"}
+              >
+                Categories
+              </Button>
             </div>
             <div className="mt-6 grid gap-2">
-              <Input placeholder="Google Maps API Key" value={mapsKey} onChange={(e) => setMapsKey(e.target.value)} className="w-full" />
-              <Button variant="secondary" onClick={saveMapsKey}>Save Maps Key</Button>
-              <Button variant="outline" onClick={signOut}>Sign out</Button>
+              <Input placeholder="Google Maps API Key" value={mapsKey} onChange={(e) => setMapsKey(e.target.value)} className="w-full border-slate-300" />
+              <Button variant="secondary" onClick={saveMapsKey} className="bg-amber-500 hover:bg-amber-600 text-white">Save Maps Key</Button>
+              <Button variant="outline" onClick={signOut} className="border-slate-300 text-slate-700 hover:bg-slate-100">Sign out</Button>
             </div>
           </aside>
 
@@ -331,8 +343,8 @@ const counts = useMemo(() => {
                       </CardHeader>
                       <CardContent>
                         <div className="flex gap-2 pb-4">
-                          <Input placeholder="New category name" value={catName} onChange={(e) => setCatName(e.target.value)} />
-                          <Button onClick={createCategory} disabled={catLoading}>Add</Button>
+                          <Input placeholder="New category name" value={catName} onChange={(e) => setCatName(e.target.value)} className="border-slate-300" />
+                          <Button onClick={createCategory} disabled={catLoading} className="bg-sky-500 hover:bg-sky-600 text-white">Add</Button>
                         </div>
                         <div className="overflow-x-auto">
                           <Table>
@@ -548,11 +560,11 @@ const counts = useMemo(() => {
                         </div>
 
                         <div className="flex gap-2 pt-2">
-                          <Button type="submit" disabled={svcSaving}>
+                          <Button type="submit" disabled={svcSaving} className="bg-sky-500 hover:bg-sky-600 text-white">
                             {svcSaving ? (editingId ? "Saving..." : "Adding...") : (editingId ? "Save Changes" : "Add Service")}
                           </Button>
                           {editingId && (
-                            <Button variant="secondary" type="button" onClick={() => setEditingId(null)}>Cancel</Button>
+                            <Button variant="secondary" type="button" onClick={() => setEditingId(null)} className="bg-slate-100 hover:bg-slate-200 text-slate-700">Cancel</Button>
                           )}
                         </div>
                       </form>
