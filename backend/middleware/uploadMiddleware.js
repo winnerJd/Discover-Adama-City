@@ -2,34 +2,47 @@ import multer from "multer";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
 import cloudinary from "../config/cloudinary.js";
 
-// For images
-const imageStorage = new CloudinaryStorage({
-  cloudinary,
-  params: {
-    folder: "discover-adama-city/images",
-    allowed_formats: ["jpg", "jpeg", "png", "webp"],
-    resource_type: "image",
-  },
-});
+// Custom storage that routes to image or video storage based on file type
+class DynamicCloudinaryStorage {
+  constructor() {
+    this.imageStorage = new CloudinaryStorage({
+      cloudinary,
+      params: {
+        folder: "discover-adama-city/images",
+        allowed_formats: ["jpg", "jpeg", "png", "webp"],
+        resource_type: "image",
+      },
+    });
 
-// For videos
-const videoStorage = new CloudinaryStorage({
-  cloudinary,
-  params: {
-    folder: "discover-adama-city/videos",
-    allowed_formats: ["mp4", "mov", "avi", "mkv"],
-    resource_type: "video",
-  },
-});
+    this.videoStorage = new CloudinaryStorage({
+      cloudinary,
+      params: {
+        folder: "discover-adama-city/videos",
+        allowed_formats: ["mp4", "mov", "avi", "mkv"],
+        resource_type: "video",
+      },
+    });
+  }
+
+  _handleFile(req, file, cb) {
+    if (file.mimetype.startsWith("video/")) {
+      return this.videoStorage._handleFile(req, file, cb);
+    } else {
+      return this.imageStorage._handleFile(req, file, cb);
+    }
+  }
+
+  _removeFile(req, file, cb) {
+    if (file.mimetype && file.mimetype.startsWith("video/")) {
+      return this.videoStorage._removeFile(req, file, cb);
+    } else {
+      return this.imageStorage._removeFile(req, file, cb);
+    }
+  }
+}
 
 const upload = multer({
-  storage: (req, file, cb) => {
-    if (file.mimetype.startsWith("video/")) {
-      cb(null, videoStorage);
-    } else {
-      cb(null, imageStorage);
-    }
-  },
+  storage: new DynamicCloudinaryStorage(),
   limits: {
     fileSize: 50 * 1024 * 1024, // 50MB max file size
   },
