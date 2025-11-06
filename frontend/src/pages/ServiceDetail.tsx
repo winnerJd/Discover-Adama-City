@@ -190,23 +190,23 @@ const ServiceDetail: React.FC = () => {
                 <CardTitle className="text-2xl">About</CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
-                <p className="text-muted-foreground leading-relaxed text-lg">{svc.description}</p>
+                <p className="text-foreground leading-relaxed text-base md:text-lg">{svc.description}</p>
                 
                 {/* Contact Information */}
                 <div className="space-y-4 pt-4 border-t">
-                  <h3 className="font-bold text-lg flex items-center gap-2">
+                  <h3 className="font-bold text-xl flex items-center gap-2 text-foreground">
                     <Phone className="h-5 w-5 text-primary" />
                     Contact Information
                   </h3>
-                  <div className="space-y-3">
+                  <div className="space-y-4">
                     <div className="flex items-start gap-3">
-                      <MapPin className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                      <span className="text-foreground">{svc.location}</span>
+                      <MapPin className="h-5 w-5 text-primary mt-1 flex-shrink-0" />
+                      <span className="text-foreground text-base leading-relaxed">{svc.location}</span>
                     </div>
                     {svc.phone && (
                       <div className="flex items-center gap-3">
                         <Phone className="h-5 w-5 text-primary flex-shrink-0" />
-                        <a href={`tel:${svc.phone}`} className="text-primary hover:underline font-medium">
+                        <a href={`tel:${svc.phone}`} className="text-primary hover:underline font-medium text-base">
                           {svc.phone}
                         </a>
                       </div>
@@ -215,7 +215,7 @@ const ServiceDetail: React.FC = () => {
                       <div className="flex items-center gap-3">
                         <Globe className="h-5 w-5 text-primary flex-shrink-0" />
                         <a 
-                          className="text-primary hover:underline font-medium flex items-center gap-2" 
+                          className="text-primary hover:underline font-medium flex items-center gap-2 text-base" 
                           href={svc.website} 
                           target="_blank" 
                           rel="noreferrer"
@@ -231,10 +231,10 @@ const ServiceDetail: React.FC = () => {
                 {/* Tags */}
                 {svc.tags && svc.tags.length > 0 && (
                   <div className="space-y-3 pt-4 border-t">
-                    <h3 className="font-bold text-lg">Features</h3>
+                    <h3 className="font-bold text-xl text-foreground">Features</h3>
                     <div className="flex flex-wrap gap-2">
                       {svc.tags.map((tag) => (
-                        <Badge key={tag} variant="outline" className="text-sm px-3 py-1">
+                        <Badge key={tag} variant="outline" className="text-base px-4 py-2">
                           {tag}
                         </Badge>
                       ))}
@@ -264,10 +264,10 @@ const ServiceDetail: React.FC = () => {
             </Card>
 
             {/* Image Gallery */}
-            {imagesArr.length > 0 && (
+            {imagesArr.length > 0 ? (
               <Card className="bg-card/50 backdrop-blur-sm">
                 <CardHeader>
-                  <CardTitle className="text-2xl">Gallery</CardTitle>
+                  <CardTitle className="text-2xl font-bold text-foreground">Gallery</CardTitle>
                 </CardHeader>
                 <CardContent>
                   {/* Main Image */}
@@ -282,7 +282,7 @@ const ServiceDetail: React.FC = () => {
                   
                   {/* Thumbnail Grid */}
                   {imagesArr.length > 1 && (
-                    <div className="grid grid-cols-4 gap-2">
+                    <div className="grid grid-cols-4 gap-3">
                       {imagesArr.map((img, idx) => (
                         <button
                           key={idx}
@@ -303,6 +303,17 @@ const ServiceDetail: React.FC = () => {
                       ))}
                     </div>
                   )}
+                </CardContent>
+              </Card>
+            ) : (
+              <Card className="bg-card/50 backdrop-blur-sm">
+                <CardHeader>
+                  <CardTitle className="text-2xl font-bold text-foreground">Gallery</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-center py-12 text-muted-foreground">
+                    <p className="text-lg">No images available for this service</p>
+                  </div>
                 </CardContent>
               </Card>
             )}
